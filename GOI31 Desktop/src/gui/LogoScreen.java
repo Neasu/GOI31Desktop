@@ -7,6 +7,8 @@ import java.io.*;
 
 import javax.swing.*;
 
+import file.*;
+
 public class LogoScreen extends Screen {
 
 	public void Init ()
@@ -24,7 +26,14 @@ public class LogoScreen extends Screen {
 		
 		frame.add(panel, BorderLayout.CENTER);
 		
-		JLabel versionLabel = new JLabel ("Version: 0.1");
+		JLabel versionLabel;
+		try {
+			versionLabel = new JLabel (FileSystem.getReader("/res/version.txt", true).readLine());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			versionLabel = new JLabel("ERORR");
+		}
 		
 		frame.add(versionLabel, BorderLayout.SOUTH);
 		
@@ -41,9 +50,9 @@ class PaintPanel extends JPanel {
 	public void paintComponent (Graphics g)
 	{
 		// Ressource aus der JAR holen
-		Image image = new ImageIcon (LogoScreen.class.getResource("/logo.png")).getImage ();
+		Image img = FileSystem.getImage("/res/logo.png", true);
 		
-		g.drawImage(image,0,0,this);
+		g.drawImage(img,0,0,this);
 	}
 	
 }
