@@ -1,10 +1,13 @@
 package core;
 
+import gui.GUIManager;
+
 public class Core {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		GUIManager manager = new GUIManager();
+		
+		manager.Run();
 	}
 
 }

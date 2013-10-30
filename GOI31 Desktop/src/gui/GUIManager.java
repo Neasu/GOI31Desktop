@@ -1,5 +1,25 @@
 package gui;
 
-public class GUIManager {
+// Lib Imports
+import java.util.*;
 
+
+public class GUIManager {
+	
+	ArrayList<Screen> screenList;
+	
+	public void Run ()
+	{
+//		screenList = new ArrayList<Screen> ();
+//		
+//		screenList.add (new LogoScreen());
+//		
+//		screenList.get(0).Init();
+		
+		LogoScreen lscreen = new LogoScreen ();
+		lscreen.Init ();
+	}
+	
 }
+
+

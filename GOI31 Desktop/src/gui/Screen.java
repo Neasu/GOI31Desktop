@@ -4,10 +4,19 @@ import javax.swing.*;
 
 public abstract class Screen {
 
-	private int width;
-	private int height;
-	private JFrame frame;
+	int width;
+	int height;
+	String screenName;
+	int screenID;
+	JFrame frame;
 	
+	public void Init ()
+	{
+		
+	}
 	
-	
+	public void setVisible (boolean v)
+	{
+		frame.setVisible(v);
+	}
 }
