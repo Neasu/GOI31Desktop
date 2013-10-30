@@ -15,8 +15,8 @@ public class LogoScreen extends Screen {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		width = 890;
-		height = 620;
+		width = 800;
+		height = 605;
 		screenName = "Logoscreen";
 		screenID = 1;
 		

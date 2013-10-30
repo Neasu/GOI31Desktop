@@ -23,7 +23,7 @@ public abstract class Screen {
 	
 	public void centerWindowOnScreen () {
 		
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); // Google-is-your-friend-code
 		int a = (int) dim.getWidth() / 2 - width / 2;
 		int b = (int) dim.getHeight() / 2 - height / 2;
 		
