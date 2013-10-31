@@ -26,14 +26,8 @@ public class LogoScreen extends Screen {
 		
 		frame.add(panel, BorderLayout.CENTER);
 		
-		JLabel versionLabel;
-		try {
-			versionLabel = new JLabel (FileSystem.getReader("/res/version.txt", true).readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			versionLabel = new JLabel("ERORR");
-		}
+		JLabel versionLabel = new JLabel("Version: 0.1");
+		
 		
 		frame.add(versionLabel, BorderLayout.SOUTH);
 		
@@ -45,6 +39,7 @@ public class LogoScreen extends Screen {
 	}
 }
 
+// Innere Klasse um das Bild zu zeichnen
 class PaintPanel extends JPanel {
 	
 	public void paintComponent (Graphics g)
