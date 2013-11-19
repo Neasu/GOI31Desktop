@@ -3,15 +3,21 @@ package student;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Diese Klasse beschreibt einen Kurs, den ein Schüler belegen kann.
+ * 
+ * @author Valentin
+ *
+ */
 public class Course {
 
 	public Course() {
 		
 	}
 	
-	private String identifier = null;
+	private String identifier;
 
-	private String fullname = null;
+	private String fullname;
 	
 	private List<Occurrence> occurrences = new ArrayList<Occurrence>();
 	
