@@ -22,7 +22,7 @@ public class MainScreen extends Screen {
 
 	public void Init() {
 		frame = new JFrame();
-		frame.setTitle("Test");
+		frame.setTitle(core.Core.NAME);
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));

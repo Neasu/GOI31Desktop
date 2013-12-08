@@ -10,15 +10,13 @@ public class GUIManager {
 	
 	public void Run ()
 	{
-//		screenList = new ArrayList<Screen> ();
-//		
-//		screenList.add (new LogoScreen());
-//		
-//		screenList.get(0).Init();
+		screenList = new ArrayList<Screen> ();
 		
-		MainScreen mgui = new MainScreen ();
+		screenList.add (new LogoScreen());
+		screenList.add (new MainScreen());
 		
-		mgui.Init ();
+		screenList.get(0).Init();
+		screenList.get(1).Init();
 	}
 	
 }
