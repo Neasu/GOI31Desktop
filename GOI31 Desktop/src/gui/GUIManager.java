@@ -16,7 +16,7 @@ public class GUIManager {
 //		
 //		screenList.get(0).Init();
 		
-		BaukastenMainGUI mgui = new BaukastenMainGUI ();
+		MainScreen mgui = new MainScreen ();
 		
 		mgui.Init ();
 	}

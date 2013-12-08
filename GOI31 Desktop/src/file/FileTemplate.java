@@ -34,9 +34,5 @@ abstract class FileTemplate {
 			reader = new BufferedReader(new FileReader(file));
 			writer = new BufferedWriter(new FileWriter(file));
 		} catch (Exception ex) {ex.printStackTrace();}
-	}
-	
-	
-	
-	
+	}	
 }
