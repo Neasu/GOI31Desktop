@@ -26,7 +26,7 @@ public class Core {
         
 				// N3asu
 				
-				new GUIManager ().Init ();
+				new GUIManager ().Run ();
 		}
 
 }
