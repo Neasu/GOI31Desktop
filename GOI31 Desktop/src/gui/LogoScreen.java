@@ -26,7 +26,7 @@ public class LogoScreen extends Screen {
 		
 		frame.add(panel, BorderLayout.CENTER);
 		
-		JLabel versionLabel = new JLabel("Version: 0.1");
+		JLabel versionLabel = new JLabel("Version: " + core.Core.version);
 		
 		
 		frame.add(versionLabel, BorderLayout.SOUTH);
