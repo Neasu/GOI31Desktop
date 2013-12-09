@@ -29,7 +29,7 @@ public class TextFile extends FileSystem {
 	}
 	
 	// Methods
-	private void initWriterReader () 
+	protected void initWriterReader () 
 	{ 
 		try{
 			reader = new BufferedReader(new FileReader(file));

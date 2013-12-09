@@ -6,7 +6,6 @@ import javax.swing.*;
 
 public class MainScreen extends Screen {
 
-	public JFrame frame;
 	public JTable table;
 	public JToolBar toolBar;
 	public JLabel label_1;

@@ -11,6 +11,7 @@ import server.Response;
 import server.ServerExecutor;
 
 import gui.GUIManager;
+import file.LogFile;
 
 public class Core {
 	
@@ -30,6 +31,19 @@ public class Core {
 				"Information", JOptionPane.PLAIN_MESSAGE);
 
 		// N3asu
+		
+		LogFile logf = LogFile.getRef();
+		
+		logf.writeTopic("I'm a Topic!", 2);
+		
+		logf.textout("Hello, I'm a Text!");
+		
+		logf.functionResult("Name here", FunctionResult.OK);
+		
+		logf.functionResult("I got Text Bitch!", FunctionResult.OK, "Best Text EVOOOR!!11!!!1");
+		
+		logf.closeLogFile();
+		
 
 		new GUIManager().Run();
 	}
