@@ -15,7 +15,7 @@ public class LogoScreen extends Screen {
 	public void Init ()
 	{
 		// Bild laden
-		img = new ImageFile ("logo.png").getImage();
+		img = new ImageFile ("img/logo.png").getImage();
 		
 		frame = new JFrame(core.Core.NAME);
 		

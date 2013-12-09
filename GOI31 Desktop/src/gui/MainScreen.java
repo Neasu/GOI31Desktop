@@ -69,6 +69,8 @@ public class MainScreen extends Screen {
 		JMenuItem mntmLaden = new JMenuItem("Laden");
 		mnNewMenu.add(mntmLaden);
 		
+		centerWindowOnScreen();
+		
 		frame.setVisible(true);
 	}
 

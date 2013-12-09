@@ -21,8 +21,7 @@ public class Core {
 			InstantiationException, IllegalAccessException,
 			UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-		// TODO Auto-generated method stub
+		
 		Request req = new Request("login", "login", new JSONObject());
 
 		Response resp = ServerExecutor.ExecuteRequest(req);
