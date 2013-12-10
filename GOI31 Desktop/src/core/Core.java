@@ -21,31 +21,21 @@ public class Core {
 	public static void main(String[] args) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			UnsupportedLookAndFeelException {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		
+//		Request req = new Request("login", "login", new JSONObject());
+//
+//		Response resp = ServerExecutor.ExecuteRequest(req);
+//
+//		JOptionPane.showMessageDialog(null, resp.getPlainResponse(),
+//				"Information", JOptionPane.PLAIN_MESSAGE);
 		
-		Request req = new Request("login", "login", new JSONObject());
-
-		Response resp = ServerExecutor.ExecuteRequest(req);
-
-		JOptionPane.showMessageDialog(null, resp.getPlainResponse(),
-				"Information", JOptionPane.PLAIN_MESSAGE);
-
-		// N3asu
+		Runnable threadJob = new Program ();
 		
-		LogFile logf = LogFile.getRef();
+		Thread mainThread = new Thread (threadJob);
 		
-		logf.writeTopic("I'm a Topic!", 2);
+		mainThread.start ();
 		
-		logf.textout("Hello, I'm a Text!");
-		
-		logf.functionResult("Name here", FunctionResult.OK);
-		
-		logf.functionResult("I got Text Bitch!", FunctionResult.OK, "Best Text EVOOOR!!11!!!1");
-		
-		logf.closeLogFile();
-		
-
-		new GUIManager().Run();
 	}
 
 }
