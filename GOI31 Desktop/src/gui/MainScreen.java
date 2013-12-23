@@ -3,6 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 public class MainScreen extends Screen {
 
@@ -44,7 +46,13 @@ public class MainScreen extends Screen {
 		
 		//
 		
-		table = new JTable();
+		TableModel dataModel = new AbstractTableModel() {
+	          public int getColumnCount() { return 7; }
+	          public int getRowCount() { return 11;}
+	          public Object getValueAt(int row, int col) { return new Integer(row*col); }
+	      };
+		
+		table = new JTable(dataModel);
 		panel_1.add(table, BorderLayout.CENTER);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
