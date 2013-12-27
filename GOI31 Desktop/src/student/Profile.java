@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import server.Request;
 import server.Response;
-import server.ServerExecutor;
+import server.Server;
 
 /**
  * Diese Klasse bildet das Profil eines Schülers ab.
@@ -45,7 +45,7 @@ public class Profile {
 		request.getData().put("user", this.user);
 		request.getData().put("pass", this.pass);
 		
-		Response response = ServerExecutor.ExecuteRequest(request);
+		Response response = Server.ExecuteRequest(request);
 		
 		boolean responseValid = (response.getStatus() == 200);
 		
@@ -74,7 +74,7 @@ public class Profile {
 		Request req = new Request("userdata", token, new JSONObject());
 		
 		// Weitere Daten werden nicht benötigt also abschicken
-		Response resp = ServerExecutor.ExecuteRequest(req);
+		Response resp = Server.ExecuteRequest(req);
 		
 		if (resp.getStatus() == 200) {
 			JSONObject data = resp.getData();

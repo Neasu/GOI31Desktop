@@ -17,7 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
-public class ServerExecutor {
+public class Server {
 	public static Response ExecuteRequest(Request request) {
 		// Rückgabe Objekt schon mal erzeugen
 		Response resp = new Response(request.getMethod(), 500, new JSONObject());
