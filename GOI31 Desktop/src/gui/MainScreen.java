@@ -46,13 +46,13 @@ public class MainScreen extends Screen {
 		
 		//
 		
-		TableModel dataModel = new AbstractTableModel() {
-	          public int getColumnCount() { return 7; }
-	          public int getRowCount() { return 11;}
-	          public Object getValueAt(int row, int col) { return new Integer(row*col); }
-	      };
+//		TableModel dataModel = new AbstractTableModel() {
+//	          public int getColumnCount() { return 7; }
+//	          public int getRowCount() { return 11;}
+//	          public Object getValueAt(int row, int col) { return new Integer(row*col); }
+//	      };
 		
-		table = new JTable(dataModel);
+		table = new JTable(new ScheduleTableModel ());
 		panel_1.add(table, BorderLayout.CENTER);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
