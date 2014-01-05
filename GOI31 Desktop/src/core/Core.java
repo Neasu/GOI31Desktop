@@ -15,8 +15,9 @@ import file.LogFile;
 
 public class Core {
 	
-	public static final String VERSION = "0.1";
-	public static final String NAME = "GOI31 Desktop";
+	public static final String  VERSION				= "0.1";
+	public static final String  NAME 				= "GOI31 Desktop";
+	public static final boolean DEBUG 				= true;
 
 	public static void main(String[] args) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException,

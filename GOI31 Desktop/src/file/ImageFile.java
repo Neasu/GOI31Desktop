@@ -4,7 +4,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import file.LogFile;
+
 import javax.imageio.ImageIO;
+
+import core.FunctionResult;
 
 public class ImageFile extends FileSystem {
 	
@@ -23,7 +27,7 @@ public class ImageFile extends FileSystem {
 		try {
 			return ImageIO.read (file);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogFile.getRef().functionResult("getImage", FunctionResult.FAIL, e.getMessage());
 			return renderPlaceholder();
 		}
 	}
@@ -41,8 +45,8 @@ public class ImageFile extends FileSystem {
 		
 		boolean black = true;
 		
-		for (int i = 0; i < 100; i += 10) {
-			for (int j = 0; j < 100; j += 10) {
+		for (int i = 0; i <= 100; i += 10) {
+			for (int j = 0; j <= 100; j += 10) {
 				
 				if (j % 2 == 0)
 					black = true;

@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.table.AbstractTableModel;
+import gui.GUIManager;
 
 public class ScheduleTableModel extends AbstractTableModel {
 	
@@ -25,6 +26,10 @@ public class ScheduleTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		if (row == 0) {
 			return columnNames[col];
+		}
+		
+		if (col == 0) {
+			return GUIManager.prog.sche.getTimePair(row - 1).getTimePairAsString();
 		}
 		return "YOLO";
 	}

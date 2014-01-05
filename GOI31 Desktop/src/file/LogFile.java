@@ -164,7 +164,7 @@ public class LogFile extends TextFile {
 	        textout  ("'#FFFFFF' width='35%'>" + name + "</TD>");
 	        textout  ("<td bgcolor='#FFFFFF' width='30%%'><font color=");
 	        textout  ("'red'>ERROR</FONT></TD><td bgcolor='#FFFFFF' ");
-	        textout  ("width='35%%'>-/-</TD></tr></table>");
+	        textout  ("width='35%%'>" + text + "</TD></tr></table>");
 	    }
 		
 	}

@@ -6,11 +6,18 @@ import java.util.*;
 import javax.swing.UIManager;
 
 import core.FunctionResult;
+import core.Program;
 import file.LogFile;
 
 public class GUIManager {
 	
 	ArrayList<Screen> screenList;
+	static Program prog;
+	
+	// Constructors
+	public GUIManager(Program prog) {
+		this.prog = prog;
+	}
 	
 	public void Run ()
 	{
