@@ -1,0 +1,16 @@
+{
+    "entfall": [
+        {
+            "tag": 1,
+            "stunde": 3
+        }
+    ],
+    
+    "vertretung": [
+        {
+            "tag": 1,
+            "stunde": 4,
+            "lehrer": "BON"
+        }
+    ]
+}
