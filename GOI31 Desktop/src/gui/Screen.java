@@ -7,12 +7,15 @@ import javax.swing.JFrame;
 
 public abstract class Screen {
 
+	// Vars
 	protected int width;
 	protected int height;
 	protected String screenName;
 	protected int screenID;
 	protected JFrame frame;
 
+	
+	// Methods
 	public void Init() {
 
 	}
@@ -21,6 +24,8 @@ public abstract class Screen {
 		frame.setVisible(v);
 	}
 
+	
+	// Zentriert das Fenster auf dem Bildschirm
 	public void centerWindowOnScreen() {
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -30,6 +35,8 @@ public abstract class Screen {
 		frame.setLocation(a, b);
 	}
 
+	
+	// Getters & Setters
 	public int getWidth() {
 		return width;
 	}

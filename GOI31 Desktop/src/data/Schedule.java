@@ -3,21 +3,30 @@ package data;
 import core.FunctionResult;
 import file.LogFile;
 
-
 public class Schedule {
 
 	// Vars
-	private Lesson lessons[][] = new Lesson[5][10];
-	private TimePair times[] = new TimePair[10];
+	private Lesson lessons[][] = new Lesson[5][10]; // Tabelle mit allen Fächern
+													// [5] -> 5 Wochentage 
+													// [10] -> 10 Stunden am Tag
+	private TimePair times[] = new TimePair[10]; // Tabelle mit den
+													// Stundenzeiten
 
 	// Constructors
-	public Schedule () {
-		Init ();
-	}
-	
-	// Methods
-	private void Init() {
 
+	// Initialisierung mit Standard-Werten
+	public Schedule() {
+		Init();
+	}
+
+	public Schedule(TimePair[] times) {
+		this.times = times;
+	}
+
+	// Methods
+
+	// Mit Standardwerten initialisieren
+	private void Init() {
 		// Standardwerte
 		times[0] = new TimePair(8, 0, 8, 45); // 1.Stunde 8:00 - 8:45
 		times[1] = new TimePair(8, 45, 9, 30);
@@ -32,54 +41,46 @@ public class Schedule {
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 10; j++) {
-				lessons[i][j] = new NormalLesson (times[j], "Placeholder", "PLH", "C000");
+				addFreeLesson(i, j, false);
 			}
 		}
-		
-//		lessons[0][3] = new NormalLesson (times[3], "Mathematik", "KOL", "C014");
-		addNormalLesson(0, 3, "Mathematik", "WE", "C005");
-//		lessons[0][1] = new FreeLesson   (times[1]);
-		addFreeLesson(0, 1);
-//		lessons[0][9] = new ProxyLesson  (times[9], "Deutsch", "WOL", "C013");
-		addProxyLesson(0, 9, "Wirtschaftslehre", "KOF", "C011");
-
 	}
-	
-	public void addLesson (int day, int hour, Lesson lesson) {
-		
+
+	public void addLesson(int day, int hour, Lesson lesson) {
+
 		if (checkInRange(day, hour)) {
 			lessons[day][hour] = lesson;
 		}
 	}
-	
-	public void addNormalLesson (int day, int hour, String name, String teacher, String room) {
+
+	public void addNormalLesson(int day, int hour, String name, String teacher, String room) {
 		if (checkInRange(day, hour))
-			addLesson (day, hour, new NormalLesson(times[hour], name, teacher, room));
+			addLesson(day, hour, new NormalLesson(times[hour], name, teacher, room));
 	}
-	
-	public void addFreeLesson (int day, int hour) {
+
+	public void addFreeLesson(int day, int hour, boolean entfall) {
 		if (checkInRange(day, hour))
-			addLesson (day, hour, new FreeLesson(times[hour]));
+			addLesson(day, hour, new FreeLesson(times[hour], entfall));
 	}
-	
-	public void addProxyLesson (int day, int hour, String name, String teacher, String room) {
+
+	public void addProxyLesson(int day, int hour, String name, String teacher, String room) {
 		if (checkInRange(day, hour))
-			addLesson (day, hour, new ProxyLesson(times[hour], name, teacher, room));
+			addLesson(day, hour, new ProxyLesson(times[hour], name, teacher, room));
 	}
-	
-	public Lesson getLesson (int day, int hour) {
+
+	public Lesson getLesson(int day, int hour) {
 		if (!checkInRange(day, hour)) {
 			return null;
 		} else {
 			return lessons[day][hour];
 		}
 	}
-	
-	private boolean checkInRange (int day, int hour) {
+
+	private boolean checkInRange(int day, int hour) {
 		if (day < 0 || day > 4 || hour < 0 || hour > 9) {
 			LogFile.getRef().functionResult("getLesson", FunctionResult.FAIL, "Day must be between 0 and 4 | Hour must be between 0 and 9!");
 			return false;
-	} else 
+		} else
 			return true;
 	}
 

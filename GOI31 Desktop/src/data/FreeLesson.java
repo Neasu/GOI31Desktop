@@ -6,19 +6,17 @@ public class FreeLesson extends Lesson {
 	private boolean entfall = false;
 	
 	// Constructors
-	public FreeLesson (TimePair time) {
+	public FreeLesson (TimePair time, boolean entfall) {
 		super (time);
+		this.entfall = entfall;
 	}
 	
 	// Methods
 	public String toString () {
 		String temp = "";
 		
-		if (entfall) {
+		if (entfall)
 			temp += ".:Entfall:.";
-		} else {
-			temp += ".:Frei:.";
-		}
 		
 		return temp;
 	}
