@@ -26,12 +26,13 @@ public class ScheduleTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		if (row == 0) {
 			return columnNames[col];
-		}
-		
-		if (col == 0) {
+		} else if (col == 0) {
 			return GUIManager.prog.sche.getTimePair(row - 1).getTimePairAsString();
+		} else {
+			return GUIManager.prog.sche.getLesson(col - 1, row - 1).toString();
 		}
-		return "YOLO";
 	}
 
+	// TODO Tooltips
+	
 }

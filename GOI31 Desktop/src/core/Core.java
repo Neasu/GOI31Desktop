@@ -1,17 +1,6 @@
 package core;
 
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import org.json.JSONObject;
-
-import server.Request;
-import server.Response;
-import server.ServerExecutor;
-
-import gui.GUIManager;
-import file.LogFile;
 
 public class Core {
 	

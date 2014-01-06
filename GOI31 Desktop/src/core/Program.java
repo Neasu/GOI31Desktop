@@ -1,8 +1,8 @@
 package core;
 
+import data.Schedule;
 import file.LogFile;
 import gui.GUIManager;
-import data.Schedule;
 
 public class Program implements Runnable {
 	
@@ -18,7 +18,6 @@ public class Program implements Runnable {
 		
 		// Schedule initiieren
 		sche = new Schedule ();
-		sche.Init ();
 		
 		// GUIManager Initialisieren
 		new GUIManager(this).Run();
