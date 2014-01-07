@@ -4,15 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import file.*;
+import file.ImageFile;
 
 public class LogoScreen extends Screen {
 	
 	private Image img;
 
-	public void Init ()
+	// Constructors
+	public LogoScreen(GUIManager guim) {
+		super(guim);
+		
+		// Screenwerte
+		width = 800;
+		height = 605;
+		screenName = "Logoscreen";
+		screenID = 1;
+		
+		Init ();
+	}
+	
+	//Methods
+	private void Init ()
 	{
 		// Bild laden
 		img = new ImageFile ("img/logo.png").getImage();
@@ -38,6 +54,8 @@ public class LogoScreen extends Screen {
 		frame.setSize(width,height);
 		
 		centerWindowOnScreen();
+		
+		frame.setResizable(false);
 		
 		frame.setVisible (true);
 	}

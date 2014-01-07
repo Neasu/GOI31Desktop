@@ -13,11 +13,17 @@ public abstract class Screen {
 	protected String screenName;
 	protected int screenID;
 	protected JFrame frame;
+	protected GUIManager guim;
 
 	
+	// Constructors
+	public Screen(GUIManager guim) {
+		this.guim = guim;
+	}
+	
 	// Methods
-	public void Init() {
-
+	public void Init(GUIManager guim) {
+		this.guim = guim;
 	}
 
 	public void setVisible(boolean v) {
@@ -44,6 +50,14 @@ public abstract class Screen {
 	public int getHeight() {
 		return height;
 	}
+	
+	public int getActualWidth () {
+		return frame.getBounds().width;
+	}
+	
+	public int getActualHeight () {
+		return frame.getBounds().height;
+	}
 
 	public String getScreenName() {
 		return screenName;
@@ -52,4 +66,8 @@ public abstract class Screen {
 	public int getScreenID() {
 		return screenID;
 	}
+	
+//	public JFrame getFrame() {
+//		return frame;
+//	}
 }

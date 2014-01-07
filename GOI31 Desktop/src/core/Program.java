@@ -9,6 +9,7 @@ public class Program implements Runnable {
 	private boolean isRunning = true;
 	private LogFile logf;
 	public Schedule sche;		// TODO Change into only-one-ref
+	public GUIManager guim;
 	
 	
 	public void run () {
@@ -20,10 +21,13 @@ public class Program implements Runnable {
 		sche = new Schedule ();
 		
 		// GUIManager Initialisieren
-		new GUIManager(this).Run();
+		guim = new GUIManager(this);
+		guim.Run();
 		
 		// Programmloop
 		do {
+			
+//			System.out.println(guim.screenList.get(1).getActualWidth() + "x" + guim.screenList.get(1).getActualHeight() );
 			
 			// Schleife verlangsamen
 			try {

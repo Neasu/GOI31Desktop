@@ -20,6 +20,7 @@ public class Schedule {
 	}
 
 	public Schedule(TimePair[] times) {
+		Init ();
 		this.times = times;
 	}
 
@@ -46,11 +47,11 @@ public class Schedule {
 		}
 	}
 
-	public void addLesson(int day, int hour, Lesson lesson) {
+	private void addLesson(int day, int hour, Lesson lesson) {
 
-		if (checkInRange(day, hour)) {
+//		if (checkInRange(day, hour)) {
 			lessons[day][hour] = lesson;
-		}
+//		}
 	}
 
 	public void addNormalLesson(int day, int hour, String name, String teacher, String room) {

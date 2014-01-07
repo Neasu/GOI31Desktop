@@ -23,14 +23,22 @@ public class MainScreen extends Screen {
 	public JPanel panel_2;
 	public JButton button_1;
 
-	public MainScreen() {
-
+	public MainScreen(GUIManager guim) {
+		super (guim);
+		
+		// Screenwerte setzen
+		width = 1240;
+		height = 720; // Alt 315
+		screenName = "MainScreen";
+		screenID = 2;
+		
+		Init ();
 	}
 
-	public void Init() {
+	private void Init() {
 		
 		width = 1240;
-		height = 720;
+		height = 720; // Alt 315
 		screenName = "MainScreen";
 		screenID = 2;
 		
