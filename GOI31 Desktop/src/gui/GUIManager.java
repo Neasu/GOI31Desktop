@@ -14,9 +14,9 @@ public class GUIManager {
 	// Vars
 	public static Program prog;
 	
-	private static Screen logoScreen = null;
-	private static Screen logonScreen = null;
-	private static Screen mainScreen = null;
+	private Screen logoScreen = null;
+	private Screen logonScreen = null;
+	private Screen mainScreen = null;
 	
 	// Constructors
 	public GUIManager(Program prog) {
