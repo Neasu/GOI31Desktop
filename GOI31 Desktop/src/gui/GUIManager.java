@@ -14,18 +14,11 @@ import file.LogFile;
 public class GUIManager {
 	
 	// Vars
-	public static Program prog;
+	private static Program prog;
 	
 	private Screen logoScreen = null;
 	private Screen logonScreen = null;
 	private Screen mainScreen = null;
-
-	private static Program prog;
-
-	private Screen logoScreen = null;
-	private Screen logonScreen = null;
-	private Screen mainScreen = null;
-
 	
 	// Constructors
 	public GUIManager(Program prog) {

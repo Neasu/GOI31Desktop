@@ -1,19 +1,19 @@
 package file;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
+import core.Core;
 import core.FunctionResult;
-
-// Diese Klasse kann nur ein einziges mal erzeugt werden
-// Logfile File-Name -> Logfile.html
+import data.TimePair;
+import core.LogLevel;
 
 public class LogFile extends TextFile {
 
 	// Vars
 	private static LogFile ref;
+	private Calendar cal = Calendar.getInstance ();
 
 	// Constructor
 	private LogFile() {
@@ -32,46 +32,76 @@ public class LogFile extends TextFile {
 	}
 
 	private void createLogfile() {
-		file = new File ("Logfile.html");
 		
+		if (!Core.WRITELOGFILE) {
+			return;
+		}
+		
+		String tempFileName = TimePair.formatDate(cal) + "_" + TimePair.formatTime(cal) + "_" + "Logfile.html";
+		tempFileName = tempFileName.replace(':', '.');
+		
+		file = new File(tempFileName);
+
 		try {
 			if (file.isFile()) {
-				file.delete ();
+				file.delete();
 			}
-			
+
 			file.createNewFile();
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
+
 		initWriterReader();
-		
-		textout ("<html><head><title>Logfile</title></head>");
-	    textout ("<body><font face='courier new'>");
-	    writeTopic ("Logfile", 3);
-	    
-	    // Link für E-Mail
-	    textout ("<a href='mailto:kevin.sieverding@gmail.com?subject=Logfile'>");
-	    textout ("Send E-Mail to me</a><br><br>");
+
+		textout("<html><head><title>Logfile</title></head>");
+		textout("<body><font face='courier new'>");
+		writeTopic("Logfile", 3);
+
+//		// Link für E-Mail
+//		textout("<a href='mailto:kevin.sieverding@gmail.com?subject=Logfile'>");
+//		textout("Send E-Mail to me</a><br><br>");
 	}
 
-	public void closeLogFile () {
+	public void closeLogFile() {
+
+		if (!Core.WRITELOGFILE) {
+			return;
+		}
 		
-		textout ("<br><br>End of Logfile</font></body></html>");
-		
+		textout("<br><br>End of Logfile</font></body></html>");
+
 		try {
-			reader.close ();
-			writer.close ();
+			reader.close();
+			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	}
+	
+	private void writeTopic (String topic, int size) {
+		
+		if (!Core.WRITELOGFILE) {
+			return;
+		}
+		
+		textout  ("<table cellspacing='0' cellpadding='0' width='100%%' ");
+		textout  ("bgcolor='#DFDFE5'>\n<tr>\n<td>\n<font face='arial' ");
+		textout  ("size='+" + size + "'>\n");
+		textout  (topic);
+		textout  ("</font>\n</td>\n</tr>\n</table>\n<br>");
 		
 	}
 	
-	public void textout (String text) {
+	private void textout (String text) {
 
+		if (!Core.WRITELOGFILE) {
+			return;
+		}
+		
 		try {
 			writer.write(text);
 			writer.flush();
@@ -80,66 +110,40 @@ public class LogFile extends TextFile {
 			e.printStackTrace();
 		}
 	}
-
-	public void textout (Colors col, String text) {
-		textout (col, false, text);
-	}
-
-	public void textout (Colors col, boolean list, String text) {
-
-		// Listen-Tag
-		if (list == true) {
-			textout("<li>");
+	
+	@SuppressWarnings("unused")
+	public void textout (String text, LogLevel logLevel) {
+		
+		if (logLevel.ordinal() < Core.LOGLEVEL.ordinal() || !Core.WRITELOGFILE) {
+			return;
 		}
 
-		// Farb-Tag
-		switch (col) {
-
-		case BLACK: {
-			textout("<font color=black>");
-			break;
+		String temp = "";
+		
+		// Zeit
+		temp += "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
+		
+		// LogLevel
+		temp += "[";
+		
+		if (logLevel == LogLevel.ERROR) {
+			temp += "<font color=red>ERR</font>";
+		} else if (logLevel == LogLevel.WARNING) {
+			temp += "<font color=yellow>WRN</font>";
+		} else if (logLevel == LogLevel.LOG) {
+			temp += "<font color=blue>LOG</font>";
+		} else if (logLevel == LogLevel.INFO) {
+			temp += "<font color=lightblue>INF</font>";
 		}
 		
-		case RED: {
-			textout ("<font color=red>");
-			break;
-		}
+		temp += "]";
+		temp += " ";
 		
-		case GREEN: {
-			textout ("<font color=green>");
-			break;
-		}
+		temp += text;
 		
-		case BLUE: {
-			textout ("<font color=blue>");
-			break;
-		}
+		temp += "<br>";
 		
-		case PURPLE: {
-			textout ("<font color=purple>");
-			break;
-		}
-
-		}
-		
-		textout (text);
-		textout ("</font>");
-		
-		if (list == false) {
-			textout ("<br>");
-		} else {
-			textout ("</li>");
-		}
-	}
-
-	public void writeTopic (String topic, int size) {
-		
-		textout  ("<table cellspacing='0' cellpadding='0' width='100%%' ");
-		textout  ("bgcolor='#DFDFE5'>\n<tr>\n<td>\n<font face='arial' ");
-		textout  ("size='+" + size + "'>\n");
-		textout  (topic);
-		textout  ("</font>\n</td>\n</tr>\n</table>\n<br>");
-		
+		textout (temp);
 	}
 	
 	public void functionResult (String name, FunctionResult result) {
@@ -150,36 +154,13 @@ public class LogFile extends TextFile {
 		
 		if (result == FunctionResult.OK)
 	    {
-	        textout  ("<table width='100%%' cellspacing='1' cellpadding='5'");
-	        textout  (" border='0' bgcolor='#C0C0C0'><tr><td bgcolor=");
-	        textout  ("'#FFFFFF' width='35%'>" + name + "</TD>");
-	        textout  ("<td bgcolor='#FFFFFF' width='30%%'><font color=");
-	        textout  ("'green'>OK</FONT></TD><td bgcolor='#FFFFFF' ");
-	        textout  ("width='35%%'>" + text + "</TD></tr></table>");
+	        textout ("Function succeeded: " + name + " | " + text, LogLevel.LOG);
 	    }
 	    else
 	    {
-	    	textout  ("<table width='100%%' cellspacing='1' cellpadding='5'");
-	        textout  (" border='0' bgcolor='#C0C0C0'><tr><td bgcolor=");
-	        textout  ("'#FFFFFF' width='35%'>" + name + "</TD>");
-	        textout  ("<td bgcolor='#FFFFFF' width='30%%'><font color=");
-	        textout  ("'red'>ERROR</FONT></TD><td bgcolor='#FFFFFF' ");
-	        textout  ("width='35%%'>" + text + "</TD></tr></table>");
+	    	textout ("Function failed: " + name + " | " + text, LogLevel.ERROR);
 	    }
 		
-	}
-	
-	public BufferedReader getReader() {
-		return null;
-	}
-
-	public BufferedWriter getWriter() {
-		return null;
-	}
-
-	// Enum mit den Farben
-	public enum Colors {
-		BLACK, RED, GREEN, BLUE, PURPLE,
 	}
 
 }

@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Calendar;
+
 import data.Schedule;
 import file.LogFile;
 import gui.GUIManager;
@@ -18,6 +20,10 @@ public class Program implements Runnable {
 		
 		// Logfile Referenz holen
 		logf = LogFile.getRef();
+		
+		// Logfile Test
+		logf.functionResult("Test", FunctionResult.OK);
+		logf.textout("I'm an Info!", LogLevel.INFO);
 		
 		// Schedule initiieren
 		sche = new Schedule ();
@@ -44,7 +50,7 @@ public class Program implements Runnable {
 		logf.closeLogFile();
 		
 	}
-
+	
 	// Getters Setters
 	public boolean isRunning() {
 		return isRunning;

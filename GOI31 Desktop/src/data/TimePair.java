@@ -1,6 +1,5 @@
 package data;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class TimePair {
@@ -8,7 +7,6 @@ public class TimePair {
 	// Vars
 	private Calendar startTime;
 	private Calendar endTime;
-	private SimpleDateFormat df = new SimpleDateFormat("hh:mm");
 
 	// Constructors
 	public TimePair() {
@@ -40,7 +38,7 @@ public class TimePair {
 	}
 
 	public String getStartTimeAsString() {
-		return df.format(startTime.getTime());
+		return formatTime(startTime);
 	}
 
 	public void setEndTime(Calendar end) {
@@ -56,7 +54,7 @@ public class TimePair {
 	}
 
 	public String getEndTimeAsString() {
-		return df.format(endTime.getTime());
+		return formatTime(endTime);
 	}
 
 	public String getTimePairAsString() {
@@ -64,21 +62,9 @@ public class TimePair {
 
 		temp += getStartTimeAsString();
 
-		if (startTime.get(Calendar.AM_PM) == Calendar.AM) {
-			temp += "am";
-		} else {
-			temp += "pm";
-		}
-
 		temp += " / ";
 
 		temp += getEndTimeAsString();
-
-		if (endTime.get(Calendar.AM_PM) == Calendar.AM) {
-			temp += "am";
-		} else {
-			temp += "pm";
-		}
 
 		return temp;
 	}
@@ -101,5 +87,55 @@ public class TimePair {
 		cal.set(Calendar.MINUTE, minutes);
 
 		return cal;
+	}
+	
+	// Gibt die Zeit als hh:mm aus
+	public static String formatTime (Calendar cal) {
+		String temp = "";
+		
+		if (cal.get(Calendar.HOUR_OF_DAY) < 10) {
+			temp += "0" + cal.get(Calendar.HOUR_OF_DAY);
+		} else {
+			temp += cal.get(Calendar.HOUR_OF_DAY);
+		}
+
+		temp += ":";
+
+		if (cal.get(Calendar.MINUTE) < 10) {
+			temp += "0" + cal.get(Calendar.MINUTE);
+		} else {
+			temp += cal.get(Calendar.MINUTE);
+		}
+		
+		return temp;
+	}
+	
+	// Gibt das Datum als dd.mm.yy aus
+	public static String formatDate (Calendar cal) {
+		String temp = "";
+		String tempYear = "";
+		
+		if (cal.get(Calendar.DAY_OF_MONTH) < 10) {
+			temp += "0" + cal.get(Calendar.DAY_OF_MONTH);
+		} else {
+			temp += cal.get(Calendar.DAY_OF_MONTH);
+		}
+		
+		temp += ".";
+		
+		if ((cal.get(Calendar.MONTH) + 1) < 10) {
+			temp += "0" + (cal.get(Calendar.MONTH) + 1);
+		} else {
+			temp += (cal.get(Calendar.MONTH) + 1);
+		}
+		
+		temp += ".";
+		
+		tempYear = "" + cal.get (Calendar.YEAR);
+		tempYear = tempYear.substring(2, 4);
+		
+		temp += tempYear;
+		
+		return temp;
 	}
 }
