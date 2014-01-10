@@ -13,6 +13,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
+import core.LogLevel;
+import file.LogFile;
+
 public class MainScreen extends Screen {
 
 	public JTable table;
@@ -100,6 +103,8 @@ public class MainScreen extends Screen {
 		centerWindowOnScreen();
 
 		frame.setVisible(true);
+		
+		LogFile.getRef().textout("MainScreen successfully created.", LogLevel.LOG);
 	}
 
 }

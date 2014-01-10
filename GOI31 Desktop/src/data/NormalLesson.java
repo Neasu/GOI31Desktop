@@ -1,6 +1,8 @@
 package data;
 
 import core.Core;
+import core.LogLevel;
+import file.LogFile;
 
 public class NormalLesson extends Lesson {
 
@@ -38,10 +40,8 @@ public class NormalLesson extends Lesson {
 			}
 		}
 
-		// TODO Create Class that handels this
-		if (Core.DEBUG) {
-			System.out.println("Shorty:" + temp + " created from: " + name);
-		}
+		LogFile.getRef().textout("Shorty: " + temp + " has been created from Name: " + name, LogLevel.INFO);
+		
 		return temp;
 	}
 

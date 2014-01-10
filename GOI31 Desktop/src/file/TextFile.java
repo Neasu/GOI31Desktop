@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import core.LogLevel;
+
 public class TextFile extends FileSystem {
 	
 	// Vars
@@ -35,7 +37,7 @@ public class TextFile extends FileSystem {
 			reader = new BufferedReader(new FileReader(file));
 			writer = new BufferedWriter(new FileWriter(file));
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			LogFile.getRef().textout("Failed to initialize Reader and Writer: " + ex.getMessage(), LogLevel.ERROR);
 		}
 	}
 	

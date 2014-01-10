@@ -1,6 +1,7 @@
 package data;
 
 import core.FunctionResult;
+import core.LogLevel;
 import file.LogFile;
 
 public class Schedule {
@@ -28,6 +29,9 @@ public class Schedule {
 
 	// Mit Standardwerten initialisieren
 	private void Init() {
+		
+		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
+		
 		// Standardwerte
 		times[0] = new TimePair(8, 0, 8, 45); // 1.Stunde 8:00 - 8:45
 		times[1] = new TimePair(8, 45, 9, 30);
@@ -55,18 +59,30 @@ public class Schedule {
 	}
 
 	public void addNormalLesson(int day, int hour, String name, String teacher, String room) {
-		if (checkInRange(day, hour))
+		if (checkInRange(day, hour)) {
 			addLesson(day, hour, new NormalLesson(times[hour], name, teacher, room));
+			LogFile.getRef().textout("A NormalLesson named " + name + " has been added at Day: " +  day + " and Hour: " + hour + " with Teacher: " + teacher + " and Room: " + room, LogLevel.INFO);
+		} else {
+			LogFile.getRef().textout("The NormalLesson: " + name + " couldn't been added at Day: " +  day + " and Hour: " + hour + "Day must be between 0 and 4 | Hour must be between 0 and 9!", LogLevel.WARNING);
+		}
 	}
 
 	public void addFreeLesson(int day, int hour, boolean entfall) {
-		if (checkInRange(day, hour))
+		if (checkInRange(day, hour)) {
 			addLesson(day, hour, new FreeLesson(times[hour], entfall));
+			LogFile.getRef().textout("A FreeLesson: has been added at Day: " +  day + " and Hour: " + hour + ". Not applicable: " + entfall, LogLevel.INFO);
+		} else {
+			LogFile.getRef().textout("The FreeLesson couldn't been added at Day: " +  day + " and Hour: " + hour + "Day must be between 0 and 4 | Hour must be between 0 and 9!", LogLevel.WARNING);
+		}
 	}
 
 	public void addProxyLesson(int day, int hour, String name, String teacher, String room) {
-		if (checkInRange(day, hour))
+		if (checkInRange(day, hour)) {
 			addLesson(day, hour, new ProxyLesson(times[hour], name, teacher, room));
+			LogFile.getRef().textout("A ProxyLesson named " + name + " has been added at Day: " +  day + " and Hour: " + hour + " with Teacher: " + teacher + " and Room: " + room, LogLevel.INFO);
+		} else {
+			LogFile.getRef().textout("The ProxyLesson: " + name + " couldn't been added at Day: " +  day + " and Hour: " + hour + "Day must be between 0 and 4 | Hour must be between 0 and 9!", LogLevel.WARNING);
+		}
 	}
 
 	public Lesson getLesson(int day, int hour) {
@@ -79,7 +95,6 @@ public class Schedule {
 
 	private boolean checkInRange(int day, int hour) {
 		if (day < 0 || day > 4 || hour < 0 || hour > 9) {
-			LogFile.getRef().functionResult("getLesson", FunctionResult.FAIL, "Day must be between 0 and 4 | Hour must be between 0 and 9!");
 			return false;
 		} else
 			return true;

@@ -13,6 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import core.LogLevel;
+import file.LogFile;
+
 public class LogonScreen extends Screen {
 
 	// Vars
@@ -86,6 +89,8 @@ public class LogonScreen extends Screen {
 		centerWindowOnScreen();
 		frame.setResizable(false);
 		setVisible(true);
+		
+		LogFile.getRef().textout("LogonScreen has been successfully created.", LogLevel.LOG);
 	}
 
 	public class startOfflineButtonListener implements ActionListener {
@@ -93,6 +98,7 @@ public class LogonScreen extends Screen {
 			guim.getMainScreen();
 			guim.getProg().setOnline(false);
 			setVisible(false);
+			LogFile.getRef().textout("Application is running in Offline-Mode.", LogLevel.LOG);
 		}
 	}
 	

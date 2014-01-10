@@ -2,12 +2,13 @@ package gui;
 
 // Lib Imports
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import core.FunctionResult;
+import core.LogLevel;
 import core.Program;
 import file.LogFile;
 
@@ -19,10 +20,13 @@ public class GUIManager {
 	private Screen logoScreen = null;
 	private Screen logonScreen = null;
 	private Screen mainScreen = null;
+	private WindowAdapter windowListener;
 	
 	// Constructors
 	public GUIManager(Program prog) {
 		this.prog = prog;
+		windowListener = new ScreenListener();
+		LogFile.getRef().textout("GUIManager has been initialized.", LogLevel.LOG);
 	}
 	
 	public void Run ()
@@ -40,6 +44,7 @@ public class GUIManager {
 	public Screen getMainScreen () {
 		if (mainScreen == null) {
 			mainScreen = new MainScreen (this);
+			mainScreen.getFrame().addWindowListener(windowListener);
 			return mainScreen;
 		} else {
 			return mainScreen;
@@ -49,6 +54,7 @@ public class GUIManager {
 	public Screen getLogoScreen () {
 		if (logoScreen == null) {
 			logoScreen = new LogoScreen (this);
+			logoScreen.getFrame().addWindowListener(windowListener);
 			return logoScreen;
 		} else {
 			return logoScreen;
@@ -58,6 +64,7 @@ public class GUIManager {
 	public Screen getLogonScreen () {
 		if (logonScreen == null) {
 			logonScreen = new LogonScreen (this);
+			logonScreen.getFrame().addWindowListener(windowListener);
 			return logonScreen;
 		} else {
 			return logonScreen;
@@ -65,26 +72,27 @@ public class GUIManager {
 	}
 	
 	// Use with Caution
-	private void closeScreen (JFrame frame) {
-		 WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+	private void closeScreen (Screen screen) {
+		 WindowEvent wev = new WindowEvent(screen.getFrame(), WindowEvent.WINDOW_CLOSING);
          Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+         LogFile.getRef().textout("Screen: " + screen.getScreenName() + " has been closed.", LogLevel.LOG);
 	}
 	
 	public void closeMainScreen () {
 		if (mainScreen != null) {
-			closeScreen(mainScreen.getFrame());
+			closeScreen(mainScreen);
 		}
 	}
 	
 	public void closeLogoScreen () {
 		if (logoScreen != null) {
-			closeScreen(logoScreen.getFrame());
+			closeScreen(logoScreen);
 		}
 	}
 	
 	public void closeLogonScreen () {
 		if (logonScreen != null) {
-			closeScreen(logonScreen.getFrame());
+			closeScreen(logonScreen);
 		}
 	}
 	
@@ -100,6 +108,16 @@ public class GUIManager {
 //		System.out.println("Screen with the ID: " + screenID + " wasn't found!");
 //		return null;
 //	}
+	
+	// Schlieﬂen des Programms abfangen
+	public class ScreenListener extends WindowAdapter {
+		public void windowClosing (WindowEvent we) {
+			LogFile.getRef().textout("Programm is terminating.", LogLevel.LOG);
+			
+			// Logfile schlieﬂen
+			LogFile.getRef().closeLogFile();
+		}
+	}
 	
 }
 

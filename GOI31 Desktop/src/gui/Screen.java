@@ -5,6 +5,9 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import core.LogLevel;
+import file.LogFile;
+
 public abstract class Screen {
 
 	// Vars
@@ -39,6 +42,8 @@ public abstract class Screen {
 		int b = (int) dim.getHeight() / 2 - height / 2;
 
 		frame.setLocation(a, b);
+		
+		LogFile.getRef().textout("The Screen: " + screenName + " has been centered at X: " + a + " Y: " + b, LogLevel.INFO);
 	}
 
 	

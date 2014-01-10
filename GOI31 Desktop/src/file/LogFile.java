@@ -113,37 +113,51 @@ public class LogFile extends TextFile {
 	
 	@SuppressWarnings("unused")
 	public void textout (String text, LogLevel logLevel) {
+
+		String tempToFile = "";
+		String tempToConsole = "";
+		
+		// Zeit
+		tempToFile 		+= "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
+		tempToConsole	+= "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
+		
+		// LogLevel
+		tempToFile += "[";
+		tempToConsole += "[";
+		
+		if (logLevel == LogLevel.ERROR) {
+			tempToFile += "<font color=red>ERR</font>";
+			tempToConsole += "ERR";
+		} else if (logLevel == LogLevel.WARNING) {
+			tempToFile += "<font color=yellow>WRN</font>";
+			tempToConsole += "WRN";
+		} else if (logLevel == LogLevel.LOG) {
+			tempToFile += "<font color=blue>LOG</font>";
+			tempToConsole += "LOG";
+		} else if (logLevel == LogLevel.INFO) {
+			tempToFile += "<font color=lightblue>INF</font>";
+			tempToConsole += "INF";
+		}
+		
+		tempToFile += "]";
+		tempToConsole += "]";
+		
+		tempToFile += " ";
+		tempToConsole += " ";
+		
+		tempToFile += text;
+		tempToConsole += text;
+		
+		tempToFile += "<br>";
+		
+		if (Core.DEBUG)
+			System.out.println(tempToConsole);
 		
 		if (logLevel.ordinal() < Core.LOGLEVEL.ordinal() || !Core.WRITELOGFILE) {
 			return;
 		}
-
-		String temp = "";
 		
-		// Zeit
-		temp += "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
-		
-		// LogLevel
-		temp += "[";
-		
-		if (logLevel == LogLevel.ERROR) {
-			temp += "<font color=red>ERR</font>";
-		} else if (logLevel == LogLevel.WARNING) {
-			temp += "<font color=yellow>WRN</font>";
-		} else if (logLevel == LogLevel.LOG) {
-			temp += "<font color=blue>LOG</font>";
-		} else if (logLevel == LogLevel.INFO) {
-			temp += "<font color=lightblue>INF</font>";
-		}
-		
-		temp += "]";
-		temp += " ";
-		
-		temp += text;
-		
-		temp += "<br>";
-		
-		textout (temp);
+		textout (tempToFile);
 	}
 	
 	public void functionResult (String name, FunctionResult result) {

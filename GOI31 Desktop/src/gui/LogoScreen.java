@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import core.LogLevel;
 import file.ImageFile;
+import file.LogFile;
 
 public class LogoScreen extends Screen {
 	
@@ -58,6 +60,8 @@ public class LogoScreen extends Screen {
 		frame.setResizable(false);
 		
 		frame.setVisible (true);
+		
+		LogFile.getRef().textout("LogoScreen successfully created.", LogLevel.LOG);
 	}
 
 
