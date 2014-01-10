@@ -1,8 +1,10 @@
 package gui;
 
 // Lib Imports
-import java.util.ArrayList;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import core.FunctionResult;
@@ -17,6 +19,13 @@ public class GUIManager {
 	private Screen logoScreen = null;
 	private Screen logonScreen = null;
 	private Screen mainScreen = null;
+
+	private static Program prog;
+
+	private Screen logoScreen = null;
+	private Screen logonScreen = null;
+	private Screen mainScreen = null;
+
 	
 	// Constructors
 	public GUIManager(Program prog) {
@@ -60,6 +69,34 @@ public class GUIManager {
 		} else {
 			return logonScreen;
 		}
+	}
+	
+	// Use with Caution
+	private void closeScreen (JFrame frame) {
+		 WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
+	}
+	
+	public void closeMainScreen () {
+		if (mainScreen != null) {
+			closeScreen(mainScreen.getFrame());
+		}
+	}
+	
+	public void closeLogoScreen () {
+		if (logoScreen != null) {
+			closeScreen(logoScreen.getFrame());
+		}
+	}
+	
+	public void closeLogonScreen () {
+		if (logonScreen != null) {
+			closeScreen(logonScreen.getFrame());
+		}
+	}
+	
+	public static Program getProg() {
+		return prog;
 	}
 	
 //	public Screen getScreenByID (int screenID) {

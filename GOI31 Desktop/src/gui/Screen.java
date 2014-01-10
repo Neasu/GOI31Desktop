@@ -67,7 +67,7 @@ public abstract class Screen {
 		return screenID;
 	}
 	
-//	public JFrame getFrame() {
-//		return frame;
-//	}
+	public JFrame getFrame() {
+		return frame;
+	}
 }

@@ -8,8 +8,10 @@ public class Program implements Runnable {
 	
 	private boolean isRunning = true;
 	private LogFile logf;
-	public Schedule sche;		// TODO Change into only-one-ref
-	public GUIManager guim;
+	private boolean isOnline = false;
+	
+	private Schedule sche;		// TODO Change into only-one-ref
+	private GUIManager guim;
 	
 	
 	public void run () {
@@ -41,6 +43,30 @@ public class Program implements Runnable {
 		// Logfile schlieﬂen
 		logf.closeLogFile();
 		
+	}
+
+	// Getters Setters
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
+	}
+
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+
+	public Schedule getSche() {
+		return sche;
+	}
+
+
+	public GUIManager getGuim() {
+		return guim;
 	}
 	
 }

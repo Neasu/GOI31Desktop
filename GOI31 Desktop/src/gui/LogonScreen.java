@@ -81,6 +81,7 @@ public class LogonScreen extends Screen {
 		panel_1.add(lblNewLabel);
 
 		btnStartOffline.addActionListener(new startOfflineButtonListener());
+		btnLogIn.addActionListener(new logInButtonListener());
 
 		centerWindowOnScreen();
 		frame.setResizable(false);
@@ -90,6 +91,16 @@ public class LogonScreen extends Screen {
 	public class startOfflineButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			guim.getMainScreen();
+			guim.getProg().setOnline(false);
+			setVisible(false);
+		}
+	}
+	
+	public class logInButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			// TODO Login attempt checken!
+			guim.getMainScreen();
+			guim.getProg().setOnline(true);
 			setVisible(false);
 		}
 	}
