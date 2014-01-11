@@ -15,6 +15,10 @@ import javax.swing.JToolBar;
 
 import core.LogLevel;
 import core.Program;
+import data.FreeLesson;
+import data.Lesson;
+import data.NormalLesson;
+import data.ProxyLesson;
 import file.LogFile;
 
 public class MainScreen extends Screen implements core.Updateable{
@@ -57,6 +61,7 @@ public class MainScreen extends Screen implements core.Updateable{
 
 		toolBarLabel = new JLabel("");
 		toolBar.add(toolBarLabel);
+		toolBar.setEnabled(false);
 
 		panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
@@ -110,8 +115,56 @@ public class MainScreen extends Screen implements core.Updateable{
 		LogFile.getRef().textout("MainScreen successfully created.", LogLevel.LOG);
 	}
 	
+	private void buildToolbarLabel () {
+		
+		Lesson currLesson = GUIManager.getProg().getSche().getCurrentLesson();
+		
+		String timeTilLessonEnd = GUIManager.getProg().getSche().getTimeTilLessonEnd();
+		
+		String temp = "";
+		
+		temp += GUIManager.getProg().getSche().getCurrTime();
+		
+		temp += " | ";
+		
+		temp += "Aktuelle Stunde: ";
+		
+		if (currLesson.getClass().equals(FreeLesson.class)) {
+			
+			FreeLesson fl = (FreeLesson) currLesson;
+			
+			if (fl.isEntfall()) {
+				temp += "Entfall";
+			} else {
+				temp += "Frei";
+			}
+			
+		} else if (currLesson.getClass().equals(NormalLesson.class)) {
+			
+			NormalLesson nl = (NormalLesson) currLesson;
+			
+			temp += nl.getName();
+			
+		} else if (currLesson.getClass().equals(ProxyLesson.class)) {
+			
+			ProxyLesson pl = (ProxyLesson) currLesson;
+			
+			temp += pl.getName();
+			
+			temp += " Vertretung!";
+		}
+		
+		if (!timeTilLessonEnd.equals("")) {
+			temp += " | ";
+			temp += "Zeit bis Stundenende: ";
+			temp += timeTilLessonEnd;
+		}
+		
+		toolBarLabel.setText(temp);
+	}
+	
 	public void update () {
-		toolBarLabel.setText(GUIManager.getProg().getSche().getCurrTime());
+		buildToolbarLabel();
 	}
 
 }

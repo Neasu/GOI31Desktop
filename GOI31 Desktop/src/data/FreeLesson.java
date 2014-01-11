@@ -20,4 +20,8 @@ public class FreeLesson extends Lesson {
 		
 		return temp;
 	}
+
+	public boolean isEntfall() {
+		return entfall;
+	}
 }

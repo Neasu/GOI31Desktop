@@ -11,5 +11,14 @@ public abstract class Lesson {
 	public Lesson(TimePair time) {
 		this.time = time;
 	}
+	
+	// Getters & Setters
+	public TimePair getTime() {
+		return time;
+	}
+	
+	public void setTime(TimePair time) {
+		this.time = time;
+	}
 
 }

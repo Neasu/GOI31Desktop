@@ -24,6 +24,7 @@ public class LogonScreen extends Screen {
 	private JPasswordField passwordField;
 	private JButton btnLogIn;
 	private JButton btnStartOffline;
+	private JLabel lblErrorMsg;
 
 	// Constructors
 	public LogonScreen(GUIManager guim) {
@@ -64,7 +65,11 @@ public class LogonScreen extends Screen {
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
-
+		
+		// New
+		lblErrorMsg = new JLabel ("");
+		contentPane.add (lblErrorMsg, BorderLayout.NORTH);
+		
 		textField = new JTextField();
 		textField.setBounds(189, 78, 87, 20);
 		panel_1.add(textField);
@@ -105,9 +110,7 @@ public class LogonScreen extends Screen {
 	public class logInButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Login attempt checken!
-			guim.getMainScreen();
-			GUIManager.getProg().setOnline(true);
-			setVisible(false);
+			lblErrorMsg.setText ("Login gerade nicht möglich!");
 		}
 	}
 

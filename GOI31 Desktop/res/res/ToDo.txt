@@ -1,1 +1,0 @@
-Eventuell FileSystem-Klasse schreiben -> File package

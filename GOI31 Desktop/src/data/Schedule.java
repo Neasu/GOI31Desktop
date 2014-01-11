@@ -52,7 +52,8 @@ public class Schedule implements core.Updateable {
 			}
 		}
 		
-		
+//		addNormalLesson(4, 0, "Deutsch", "KOL", "C011");
+//		addNormalLesson(4, 1, "Deutsch", "KOL", "C011");
 		
 		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
 	}
@@ -120,7 +121,39 @@ public class Schedule implements core.Updateable {
 		return temp;
 	}
 	
+	public Lesson getCurrentLesson () {
+		int today = TimePair.getTodayAsInt(cal);
+		
+		if (today == 6 || today == 7) {
+			return new FreeLesson(new TimePair (), false);
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			if (getLesson(today - 1, i).getTime().isInBetween(cal)) {
+				return getLesson (today - 1, i);
+			}
+		}
+		
+		LogFile.getRef().textout("The current Lesson couldn't been found.", LogLevel.ERROR);
+		return new NormalLesson(new TimePair(), "ERROR", "", "");
+	}
+	
+	// Gibt die Zeit bis zum Ende der aktuellen Stunde als String zurück
+	public String getTimeTilLessonEnd () {
+		
+		Lesson currLesson = getCurrentLesson();
+		String temp = "";
+		
+		if (currLesson.getClass().equals(NormalLesson.class) || currLesson.getClass().equals(ProxyLesson.class))
+			return TimePair.getTimeDifferenceAsString(cal, currLesson.getTime().getEndTime());
+		
+		return temp;
+	}
+	
 	public void update () {
 		cal = Calendar.getInstance();
+		
+//		// Standardwerte
+//		cal.set(2014, 0, 10, 8, 30);
 	}
 }
