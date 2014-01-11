@@ -9,7 +9,7 @@ import core.FunctionResult;
 import data.TimePair;
 import core.LogLevel;
 
-public class LogFile extends TextFile {
+public class LogFile extends TextFile implements core.Updateable {
 
 	// Vars
 	private static LogFile ref;
@@ -36,6 +36,8 @@ public class LogFile extends TextFile {
 		if (!Core.WRITELOGFILE) {
 			return;
 		}
+
+		core.Program.addUpdateable(this);
 		
 		String tempFileName = TimePair.formatDate(cal) + "_" + TimePair.formatTime(cal) + "_" + "Logfile.html";
 		tempFileName = tempFileName.replace(':', '.');
@@ -129,7 +131,7 @@ public class LogFile extends TextFile {
 			tempToFile += "<font color=red>ERR</font>";
 			tempToConsole += "ERR";
 		} else if (logLevel == LogLevel.WARNING) {
-			tempToFile += "<font color=yellow>WRN</font>";
+			tempToFile += "<font color=orange>WRN</font>";
 			tempToConsole += "WRN";
 		} else if (logLevel == LogLevel.LOG) {
 			tempToFile += "<font color=blue>LOG</font>";
@@ -175,6 +177,10 @@ public class LogFile extends TextFile {
 	    	textout ("Function failed: " + name + " | " + text, LogLevel.ERROR);
 	    }
 		
+	}
+	
+	public void update () {
+		cal = Calendar.getInstance();
 	}
 
 }

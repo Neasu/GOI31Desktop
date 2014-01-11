@@ -1,6 +1,5 @@
 package data;
 
-import core.Core;
 import core.LogLevel;
 import file.LogFile;
 

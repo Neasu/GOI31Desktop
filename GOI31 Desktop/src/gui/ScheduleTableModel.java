@@ -4,6 +4,8 @@ import javax.swing.table.AbstractTableModel;
 import gui.GUIManager;
 
 public class ScheduleTableModel extends AbstractTableModel {
+
+	private static final long serialVersionUID = 1794107760437970394L;
 	
 	private String columnNames [] = {"Zeit", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
 	private int rows = 11;

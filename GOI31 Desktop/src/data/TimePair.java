@@ -2,6 +2,9 @@ package data;
 
 import java.util.Calendar;
 
+import core.LogLevel;
+import file.LogFile;
+
 public class TimePair {
 
 	// Vars
@@ -105,6 +108,56 @@ public class TimePair {
 			temp += "0" + cal.get(Calendar.MINUTE);
 		} else {
 			temp += cal.get(Calendar.MINUTE);
+		}
+		
+		return temp;
+	}
+	
+	public static String formatTime (Calendar cal, String format) {
+		String temp = "";
+		
+		switch (format) {
+		
+		case "hh:mm": {
+			temp = formatTime(cal);
+			break;
+		}
+		
+		case "hh:mm:ss": {
+			temp += formatTime(cal);
+			
+			temp += ":";
+			
+			if (cal.get(Calendar.SECOND) < 10) {
+				temp += "0" + cal.get(Calendar.SECOND);
+			} else {
+				temp += cal.get(Calendar.SECOND);
+			}
+			
+			break;
+		}
+		
+		case "dd.mm.yy hh:mm:ss": {
+			temp = formatDate(cal);
+			temp += " ";
+			
+			temp += formatTime(cal);
+			temp += ":";
+			
+			if (cal.get(Calendar.SECOND) < 10) {
+				temp += "0" + cal.get(Calendar.SECOND);
+			} else {
+				temp += cal.get(Calendar.SECOND);
+			}
+			break;
+		}
+		
+		default: {
+			LogFile.getRef().textout("Time couldn't been formatted due to the format: " + format + " doesn't exist.", LogLevel.WARNING);
+			temp = format;
+			break;
+		}
+		
 		}
 		
 		return temp;

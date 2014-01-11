@@ -14,13 +14,14 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import core.LogLevel;
+import core.Program;
 import file.LogFile;
 
-public class MainScreen extends Screen {
+public class MainScreen extends Screen implements core.Updateable{
 
 	public JTable table;
 	public JToolBar toolBar;
-	public JLabel label_1;
+	public JLabel toolBarLabel;
 	public JLabel label_2;
 	public JPanel panel_1;
 	public JPanel panel_2;
@@ -54,8 +55,8 @@ public class MainScreen extends Screen {
 		toolBar = new JToolBar();
 		frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
 
-		label_1 = new JLabel("Label 1");
-		toolBar.add(label_1);
+		toolBarLabel = new JLabel("");
+		toolBar.add(toolBarLabel);
 
 		panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
@@ -104,7 +105,13 @@ public class MainScreen extends Screen {
 
 		frame.setVisible(true);
 		
+		Program.addUpdateable(this);
+		
 		LogFile.getRef().textout("MainScreen successfully created.", LogLevel.LOG);
+	}
+	
+	public void update () {
+		toolBarLabel.setText(GUIManager.getProg().getSche().getCurrTime());
 	}
 
 }

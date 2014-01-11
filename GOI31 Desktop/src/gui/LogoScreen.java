@@ -67,7 +67,9 @@ public class LogoScreen extends Screen {
 
 // Innere Klasse um das Bild zu zeichnen
 	class PaintPanel extends JPanel {
-		
+
+		private static final long serialVersionUID = -8347312787900961164L;
+
 		public void paintComponent (Graphics g)
 		{	
 			g.drawImage(img,0,0,this);

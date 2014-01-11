@@ -24,12 +24,12 @@ public class GUIManager {
 	
 	// Constructors
 	public GUIManager(Program prog) {
-		this.prog = prog;
+		GUIManager.prog = prog;
 		windowListener = new ScreenListener();
 		LogFile.getRef().textout("GUIManager has been initialized.", LogLevel.LOG);
 	}
 	
-	public void Run ()
+	public void run ()
 	{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

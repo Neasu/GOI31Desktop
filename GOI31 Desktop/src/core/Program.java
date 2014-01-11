@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 import data.Schedule;
 import file.LogFile;
 import gui.GUIManager;
@@ -12,9 +14,13 @@ public class Program implements Runnable {
 	
 	private Schedule sche;		// TODO Change into only-one-ref
 	private GUIManager guim;
+	private static ArrayList<Updateable> updateList;
 	
 	
 	public void run () {
+		
+		// UpdateList initiieren
+		updateList = new ArrayList<Updateable> ();
 		
 		// Logfile Referenz holen
 		logf = LogFile.getRef();
@@ -26,21 +32,36 @@ public class Program implements Runnable {
 		
 		// GUIManager Initialisieren
 		guim = new GUIManager(this);
-		guim.Run();
+		guim.run();
 		
 		// Programmloop
 		do {
 			
-//			System.out.println(guim.screenList.get(1).getActualWidth() + "x" + guim.screenList.get(1).getActualHeight() );
+			// Update aufrufen
+			for (Updateable upd : updateList) {
+				upd.update();
+			}
 			
 			// Schleife verlangsamen
 			try {
-				Thread.sleep(10);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				logf.functionResult("Thread.sleep", FunctionResult.FAIL, e.toString());
 			}
 			
 		} while (isRunning);
+	}
+	
+	public static void addUpdateable (Updateable upd) {
+		updateList.add(upd);
+	}
+	
+	public static void removeUpdateable (Updateable upd) {
+		if (updateList.contains(upd)){
+			updateList.remove(upd);
+		} else {
+			LogFile.getRef().textout("The Updateable: " + upd.toString() + " couldn't been removed.", LogLevel.WARNING);
+		}
 	}
 	
 	// Getters Setters

@@ -1,15 +1,17 @@
 package data;
 
-import core.FunctionResult;
+import java.util.Calendar;
+
 import core.LogLevel;
 import file.LogFile;
 
-public class Schedule {
+public class Schedule implements core.Updateable {
 
 	// Vars
 	private Lesson lessons[][] = new Lesson[5][10]; // Tabelle mit allen Fächern
 													// [5] -> 5 Wochentage 
 													// [10] -> 10 Stunden am Tag
+	private Calendar cal;
 	private TimePair times[] = new TimePair[10]; // Tabelle mit den
 													// Stundenzeiten
 
@@ -28,9 +30,9 @@ public class Schedule {
 	// Methods
 
 	// Mit Standardwerten initialisieren
-	private void Init() {
+	private void Init() {	
 		
-		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
+		core.Program.addUpdateable(this);
 		
 		// Standardwerte
 		times[0] = new TimePair(8, 0, 8, 45); // 1.Stunde 8:00 - 8:45
@@ -49,6 +51,10 @@ public class Schedule {
 				addFreeLesson(i, j, false);
 			}
 		}
+		
+		
+		
+		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
 	}
 
 	private void addLesson(int day, int hour, Lesson lesson) {
@@ -104,5 +110,17 @@ public class Schedule {
 		if (index > 9 || index < 0)
 			return null;
 		return times[index];
+	}
+	
+	public String getCurrTime () {
+		String temp = "";
+		
+		temp = TimePair.formatTime(cal, "dd.mm.yy hh:mm:ss");
+		
+		return temp;
+	}
+	
+	public void update () {
+		cal = Calendar.getInstance();
 	}
 }

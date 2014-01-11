@@ -96,7 +96,7 @@ public class LogonScreen extends Screen {
 	public class startOfflineButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			guim.getMainScreen();
-			guim.getProg().setOnline(false);
+			GUIManager.getProg().setOnline(false);
 			setVisible(false);
 			LogFile.getRef().textout("Application is running in Offline-Mode.", LogLevel.LOG);
 		}
@@ -106,7 +106,7 @@ public class LogonScreen extends Screen {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Login attempt checken!
 			guim.getMainScreen();
-			guim.getProg().setOnline(true);
+			GUIManager.getProg().setOnline(true);
 			setVisible(false);
 		}
 	}
