@@ -39,10 +39,12 @@ public class LogFile extends TextFile implements core.Updateable {
 
 		core.Program.addUpdateable(this);
 		
-		String tempFileName = TimePair.formatDate(cal) + "_" + TimePair.formatTime(cal) + "_" + "Logfile.html";
-		tempFileName = tempFileName.replace(':', '.');
+//		String tempFileName = TimePair.formatDate(cal) + "_" + TimePair.formatTime(cal) + "_" + "Logfile.html";
+//		tempFileName = tempFileName.replace(':', '.');
 		
-		file = new File(tempFileName);
+//		file = new File(tempFileName);
+		
+		file = new File("Logfile.html");
 
 		try {
 			if (file.isFile()) {
@@ -120,8 +122,8 @@ public class LogFile extends TextFile implements core.Updateable {
 		String tempToConsole = "";
 		
 		// Zeit
-		tempToFile 		+= "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
-		tempToConsole	+= "[" + TimePair.formatDate(cal) + " " + TimePair.formatTime(cal) + "]";
+		tempToFile 		+= "[" + TimePair.formatTime(cal, "dd.mm.yy") + " " + TimePair.formatTime(cal) + "]";
+		tempToConsole	+= "[" + TimePair.formatTime(cal, "dd.mm.yy") + " " + TimePair.formatTime(cal) + "]";
 		
 		// LogLevel
 		tempToFile += "[";

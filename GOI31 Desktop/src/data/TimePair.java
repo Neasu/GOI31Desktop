@@ -96,19 +96,7 @@ public class TimePair {
 	public static String formatTime (Calendar cal) {
 		String temp = "";
 		
-		if (cal.get(Calendar.HOUR_OF_DAY) < 10) {
-			temp += "0" + cal.get(Calendar.HOUR_OF_DAY);
-		} else {
-			temp += cal.get(Calendar.HOUR_OF_DAY);
-		}
-
-		temp += ":";
-
-		if (cal.get(Calendar.MINUTE) < 10) {
-			temp += "0" + cal.get(Calendar.MINUTE);
-		} else {
-			temp += cal.get(Calendar.MINUTE);
-		}
+		temp = formatTime(cal, "hh:mm");
 		
 		return temp;
 	}
@@ -116,78 +104,124 @@ public class TimePair {
 	public static String formatTime (Calendar cal, String format) {
 		String temp = "";
 		
-		switch (format) {
+		int[] intTemp = {
+				cal.get (Calendar.SECOND),
+				cal.get (Calendar.MINUTE),
+				cal.get (Calendar.HOUR_OF_DAY),
+				cal.get (Calendar.DAY_OF_MONTH),
+				cal.get (Calendar.MONTH) + 1,
+				cal.get (Calendar.YEAR),
+		};
 		
-		case "hh:mm": {
-			temp = formatTime(cal);
-			break;
-		}
-		
-		case "hh:mm:ss": {
-			temp += formatTime(cal);
-			
-			temp += ":";
-			
-			if (cal.get(Calendar.SECOND) < 10) {
-				temp += "0" + cal.get(Calendar.SECOND);
-			} else {
-				temp += cal.get(Calendar.SECOND);
-			}
-			
-			break;
-		}
-		
-		case "dd.mm.yy hh:mm:ss": {
-			temp = formatDate(cal);
-			temp += " ";
-			
-			temp += formatTime(cal);
-			temp += ":";
-			
-			if (cal.get(Calendar.SECOND) < 10) {
-				temp += "0" + cal.get(Calendar.SECOND);
-			} else {
-				temp += cal.get(Calendar.SECOND);
-			}
-			break;
-		}
-		
-		default: {
-			LogFile.getRef().textout("Time couldn't been formatted due to the format: " + format + " doesn't exist.", LogLevel.WARNING);
-			temp = format;
-			break;
-		}
-		
-		}
+		temp = formatTime(intTemp, format);
 		
 		return temp;
 	}
 	
-	// Gibt das Datum als dd.mm.yy aus
-	public static String formatDate (Calendar cal) {
+	// [0] Seconds [1] Minutes [2] Hours [4] Days [5] Months [6] Years
+	public static String formatTime(int[] time,  String format) {
 		String temp = "";
-		String tempYear = "";
 		
-		if (cal.get(Calendar.DAY_OF_MONTH) < 10) {
-			temp += "0" + cal.get(Calendar.DAY_OF_MONTH);
-		} else {
-			temp += cal.get(Calendar.DAY_OF_MONTH);
+		switch (format) {
+			case "ss": {
+				
+				if (time[0] < 10) {
+					temp += "0" + time[0];
+				} else {
+					temp += time[0];
+				}
+				
+				break;
+			}
+			case "mm": {
+				
+				if (time[1] < 10) {
+					temp += "0" + time[1];
+				} else {
+					temp += time[1];
+				}
+				
+				break;
+			}
+			case "hh": {
+				
+				if (time[2] < 10) {
+					temp += "0" + time[2];
+				} else {
+					temp += time[2];
+				}
+				
+				break;
+			}
+			case "mm:ss": {
+				
+				temp += formatTime(time, "mm");
+				temp += ":";
+				temp += formatTime(time, "ss");
+				
+				break;
+			}
+			case "hh:mm": {
+				
+				temp += formatTime(time, "hh");
+				temp += ":";
+				temp += formatTime(time, "mm");
+				
+				break;
+			}
+			case "hh:mm:ss": {
+				
+				temp += formatTime(time, "hh:mm");
+				temp += ":";
+				temp += formatTime(time, "ss");
+				
+				break;
+			}
+			case "dd.mm.yy": {
+				
+				if (time[3] < 10) {
+					temp += "0" + time[3];
+				} else {
+					temp += time[3];
+				}
+				
+				temp += ".";
+				
+				if (time[4] < 10) {
+					temp += "0" + time[4];
+				} else {
+					temp += time[4];
+				}
+				
+				temp += ".";
+				
+				if (time[5] < 10) {
+					temp += "0" + time[5];
+				} else {
+					temp += time[5];
+				}
+				
+				break;
+			}
+			case "dd.mm.yy hh:mm:ss": {
+				
+				temp += formatTime(time, "dd.mm.yy");
+				
+				temp += " ";
+				
+				temp += formatTime(time, "hh:mm:ss");
+				
+				break;
+			}
+			default: {
+				
+				LogFile.getRef().textout("Time couldn't been formatted due to the format: " + format + " doesn't exist.", LogLevel.WARNING);
+				temp = format;
+				
+				break;
+			}
+				
 		}
-		
-		temp += ".";
-		
-		if ((cal.get(Calendar.MONTH) + 1) < 10) {
-			temp += "0" + (cal.get(Calendar.MONTH) + 1);
-		} else {
-			temp += (cal.get(Calendar.MONTH) + 1);
-		}
-		
-		temp += ".";
-		
-		tempYear = "" + cal.get (Calendar.YEAR);
-		tempYear = tempYear.substring(2, 4);
-		
-		temp += tempYear;
 		
 		return temp;
 	}
@@ -305,75 +339,33 @@ public class TimePair {
 	public static String getTimeDifferenceAsString (Calendar time1, Calendar time2) {
 		String temp = "";
 		
-		int time1Hour = time1.get(Calendar.HOUR_OF_DAY);
-		int time1Minu = time1.get(Calendar.MINUTE);
-		int time1Seco = time1.get(Calendar.SECOND);
+		temp = formatTime(getTimeDifferenceAsInt(time1, time2), "hh:mm:ss");
 		
-		int time2Hour = time2.get(Calendar.HOUR_OF_DAY);
-		int time2Minu = time2.get(Calendar.MINUTE);
-		int time2Seco = time2.get(Calendar.SECOND);
+		return temp;
+	}
+	
+	// [2] -> Hours | [1] -> Minutes | [0] -> Seconds
+	public static int[] getTimeDifferenceAsInt (Calendar time1, Calendar time2) {
+		int[] temp = new int [3]; 
+		
+		int milliesDifference = 0;
 		
 		int hourDifference = 0;
 		int minuDifference = 0;
 		int secoDifference = 0;
 		
-		if ((time1Hour - time2Hour) == 0) {
-			hourDifference = 0;
-		} else if ((time1Hour - time2Hour) < 0) {
-			hourDifference = time2Hour - time1Hour;
-		} else if ((time1Hour - time2Hour) > 0) {
-			hourDifference = time1Hour - time2Hour;
-		}
+		milliesDifference = (int) (time1.getTimeInMillis() - time2.getTimeInMillis());
 		
-		if ((time1Minu - time2Minu) == 0) {
-			minuDifference = 0;
-		} else if ((time1Minu - time2Minu) < 0) {
-			minuDifference = time2Minu - time1Minu;
-		} else if ((time1Minu - time2Minu) > 0) {
-			minuDifference = time1Minu - time2Minu;
-		}
+		if (milliesDifference < 0)
+			milliesDifference = milliesDifference * (-1);
 		
-		if ((time1Seco - time2Seco) == 0) {
-			secoDifference = 0;
-		} else if ((time1Seco - time2Seco) < 0) {
-			secoDifference = time2Seco - time1Seco;
-		} else if ((time1Seco - time2Seco) > 0) {
-			secoDifference = time1Seco - time2Seco;
-		}
+		secoDifference = (int) milliesDifference / 1000;
+		minuDifference = (int) secoDifference / 60;
+		hourDifference = (int) minuDifference / 60;
 		
-		if (hourDifference < 10) {
-			temp += "0" + hourDifference;
-		} else {
-			temp += hourDifference;
-		}
-		
-		temp += ":";
-		
-		if (minuDifference < 10) {
-			temp += "0" + minuDifference;
-		} else {
-			temp += minuDifference;
-		}
-		
-		temp += ":";
-		
-		if (secoDifference < 10) {
-			temp += "0" + secoDifference;
-		} else {
-			temp += secoDifference;
-		}
-		
-		return temp;
-	}
-	
-	// [0] -> Hours | [1] -> Minutes | [2] -> Seconds
-	public static int[] getTimeDifferenceAsInt (Calendar time1, Calendar time2) {
-		int[] temp = new int [3]; 
-		String[] tempString = getTimeDifferenceAsString(time1, time2).split(":");
-
-		for (int i = 0; i < tempString.length && i < temp.length; i++) {
-			temp [i] = Integer.getInteger(tempString[i]);
-		}
+		temp[0] = secoDifference % 60;
+		temp[1] = minuDifference % 60;
+		temp[2] = hourDifference % 24;
 		
 		return temp;
 	}

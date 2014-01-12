@@ -6,7 +6,7 @@ public class Core {
 	public static final String  NAME 				= "GOI31 Desktop";
 	public static final boolean DEBUG 				= true;
 	public static final boolean WRITELOGFILE		= true;
-	public static final LogLevel LOGLEVEL			= LogLevel.INFO;
+	public static final LogLevel LOGLEVEL			= LogLevel.LOG;
 
 	public static void main(String[] args) {
 //		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

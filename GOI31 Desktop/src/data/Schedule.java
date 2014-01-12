@@ -1,6 +1,7 @@
 package data;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import core.LogLevel;
 import file.LogFile;
@@ -8,11 +9,11 @@ import file.LogFile;
 public class Schedule implements core.Updateable {
 
 	// Vars
-	private Lesson lessons[][] = new Lesson[5][10]; // Tabelle mit allen Fächern
-													// [5] -> 5 Wochentage 
-													// [10] -> 10 Stunden am Tag
-	private Calendar cal;
-	private TimePair times[] = new TimePair[10]; // Tabelle mit den
+	private int lessonsPerDay = 10;
+	private Lesson lessons[][] = new Lesson[5][lessonsPerDay]; // Tabelle mit allen Fächern [5] -> 5 Wochentage [10] -> 10 Stunden am Tag
+	private TimePair schoolDay;
+	private Calendar cal = Calendar.getInstance();
+	private TimePair times[] = new TimePair[lessonsPerDay]; // Tabelle mit den
 													// Stundenzeiten
 
 	// Constructors
@@ -45,15 +46,17 @@ public class Schedule implements core.Updateable {
 		times[7] = new TimePair(14, 15, 15, 0);
 		times[8] = new TimePair(15, 15, 16, 0);
 		times[9] = new TimePair(16, 0, 16, 45);
-
+		
+		schoolDay = new TimePair(times[0].getStartTime(), times[lessonsPerDay - 1].getEndTime());
+		
 		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < lessonsPerDay; j++) {
 				addFreeLesson(i, j, false);
 			}
 		}
 		
-//		addNormalLesson(4, 0, "Deutsch", "KOL", "C011");
-//		addNormalLesson(4, 1, "Deutsch", "KOL", "C011");
+		addNormalLesson(4, 0, "Deutsch", "KOL", "C011");
+		addNormalLesson(4, 1, "Deutsch", "KOL", "C011");
 		
 		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
 	}
@@ -101,14 +104,14 @@ public class Schedule implements core.Updateable {
 	}
 
 	private boolean checkInRange(int day, int hour) {
-		if (day < 0 || day > 4 || hour < 0 || hour > 9) {
+		if (day < 0 || day > 4 || hour < 0 || hour > lessonsPerDay) {
 			return false;
 		} else
 			return true;
 	}
 
 	public TimePair getTimePair(int index) {
-		if (index > 9 || index < 0)
+		if (index > (lessonsPerDay - 1) || index < 0)
 			return null;
 		return times[index];
 	}
@@ -124,11 +127,12 @@ public class Schedule implements core.Updateable {
 	public Lesson getCurrentLesson () {
 		int today = TimePair.getTodayAsInt(cal);
 		
-		if (today == 6 || today == 7) {
+		// Wenn es Wochenende oder außerhalb der Schulzeiten ist, dann FreeLeson
+		if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
 			return new FreeLesson(new TimePair (), false);
-		}
 		
-		for (int i = 0; i < 10; i++) {
+		
+		for (int i = 0; i < lessonsPerDay; i++) {
 			if (getLesson(today - 1, i).getTime().isInBetween(cal)) {
 				return getLesson (today - 1, i);
 			}
@@ -136,6 +140,30 @@ public class Schedule implements core.Updateable {
 		
 		LogFile.getRef().textout("The current Lesson couldn't been found.", LogLevel.ERROR);
 		return new NormalLesson(new TimePair(), "ERROR", "", "");
+	}
+	
+	public Lesson getNextLesson () {
+		int today = TimePair.getTodayAsInt(cal);
+		
+		Lesson currLesson = getCurrentLesson();
+		
+		// Wenn es Wochenende oder außerhalb der Schulzeiten ist, dann FreeLeson
+			if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
+				return new FreeLesson(new TimePair (), false);
+		
+		for (int i = 0; i < lessonsPerDay; i++) {
+			
+			if (times[i].getEndTimeAsString().equals(currLesson.getTime().getEndTimeAsString())) {
+				for (int j = 0; j < lessonsPerDay; j++) {
+					if (lessons[today - 1][j].getTime().getStartTimeAsString().equals(times[i + 1].getStartTimeAsString())) {
+						return lessons[today - 1][j];
+					}
+				}
+			}
+		}
+		
+		LogFile.getRef().textout("The next Lesson couldn't been found.", LogLevel.ERROR);
+		return new NormalLesson(new TimePair (), "ERROR", "", "");
 	}
 	
 	// Gibt die Zeit bis zum Ende der aktuellen Stunde als String zurück
@@ -153,7 +181,24 @@ public class Schedule implements core.Updateable {
 	public void update () {
 		cal = Calendar.getInstance();
 		
-//		// Standardwerte
+		// Standardwerte
 //		cal.set(2014, 0, 10, 8, 30);
+	}
+	
+	public void updateData () {
+		//TODO Make Code here!
+		LogFile.getRef().textout("Updating Schedule Data", LogLevel.LOG);
+	}
+
+	public int getLessonsPerDay() {
+		return lessonsPerDay;
+	}
+
+	public TimePair getSchoolDay() {
+		return new TimePair(schoolDay.getStartTime(), schoolDay.getEndTime());
+	}
+
+	public Calendar getCal() {
+		return (Calendar) cal.clone();
 	}
 }
