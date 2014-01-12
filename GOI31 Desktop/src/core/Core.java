@@ -2,11 +2,11 @@ package core;
 
 public class Core {
 	
-	public static final String  VERSION				= "0.1";
+	public static final String  VERSION				= "1.0";
 	public static final String  NAME 				= "GOI31 Desktop";
 	public static final boolean DEBUG 				= true;
 	public static final boolean WRITELOGFILE		= true;
-	public static final LogLevel LOGLEVEL			= LogLevel.LOG;
+	public static final LogLevel LOGLEVEL			= LogLevel.INFO;
 
 	public static void main(String[] args) {
 //		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

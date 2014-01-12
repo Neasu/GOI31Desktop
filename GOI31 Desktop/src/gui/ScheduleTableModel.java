@@ -64,9 +64,13 @@ public class ScheduleTableModel extends AbstractTableModel {
 				
 				nl = (NormalLesson) lesson;
 				
-				temp += "Fach: ";
+				temp += " Fach: ";
 				
-				temp += nl.getName();
+				if (ms.getCheckBox_3()) {
+					temp += nl.getShorty();
+				} else {
+					temp += nl.getName();
+				}
 				
 				if (lesson.getClass().equals(ProxyLesson.class)) {
 					

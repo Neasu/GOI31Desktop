@@ -118,6 +118,13 @@ public class TimePair {
 		return temp;
 	}
 	
+	
+	/**
+	 * 
+	 * @param time
+	 * @param format Available Formats: "ss", "mm", "hh", "mm:ss", "hh:mm", "hh:mm:ss", "dd.mm.yy", "dd.mm.yy hh:mm:ss" 
+	 * @return
+	 */
 	// [0] Seconds [1] Minutes [2] Hours [4] Days [5] Months [6] Years
 	public static String formatTime(int[] time,  String format) {
 		String temp = "";

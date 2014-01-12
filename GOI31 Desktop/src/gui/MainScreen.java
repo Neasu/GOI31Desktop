@@ -37,6 +37,8 @@ public class MainScreen extends Screen implements core.Updateable{
 	private JButton button_1;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
+	private JCheckBox checkBox_3;
+
 	
 	private Cooldown cooldown;
 
@@ -83,9 +85,15 @@ public class MainScreen extends Screen implements core.Updateable{
 		
 		checkBox_1 = new JCheckBox("Lehrer Anzeigen");
 		panel_2.add(checkBox_1);
+		checkBox_1.addActionListener(new CheckboxListener());
 		
 		checkBox_2 = new JCheckBox("Raum Anzeigen");
 		panel_2.add(checkBox_2);
+		checkBox_2.addActionListener(new CheckboxListener());
+		
+		checkBox_3 = new JCheckBox("Abkürzungen");
+		panel_2.add(checkBox_3);
+		checkBox_3.addActionListener(new CheckboxListener());
 		
 		button_1.addActionListener(new UpdateButtonListener());
 
@@ -218,8 +226,6 @@ public class MainScreen extends Screen implements core.Updateable{
 	public void update () {
 		buildToolbarLabel();
 		manageUpdateButton();
-		table.revalidate();
-		table.repaint();
 	}
 	
 	public boolean getCheckBox_1() {
@@ -229,6 +235,10 @@ public class MainScreen extends Screen implements core.Updateable{
 	public boolean getCheckBox_2() {
 		return checkBox_2.isSelected();
 	}
+	
+	public boolean getCheckBox_3() {
+		return checkBox_3.isSelected();
+	}
 
 	public class UpdateButtonListener implements ActionListener {
 		public void actionPerformed (ActionEvent ev) {			
@@ -236,6 +246,13 @@ public class MainScreen extends Screen implements core.Updateable{
 				GUIManager.getProg().getSche().updateData();
 				cooldown.restart();
 			}
+		}
+	}
+	
+	public class CheckboxListener implements ActionListener {
+		public void actionPerformed (ActionEvent ev) {
+			table.revalidate();
+			table.repaint();
 		}
 	}
 

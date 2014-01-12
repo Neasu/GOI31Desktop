@@ -45,7 +45,7 @@ public class NormalLesson extends Lesson {
 	}
 
 	private void setName(String name) {
-		if (name.length() > 8) {
+		if (name.length() > 12) {
 			useShorty = true;
 		}
 		this.name = name;
@@ -54,6 +54,14 @@ public class NormalLesson extends Lesson {
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getNameOrShorty () {
+		if (useShorty) {
+			return shorty;
+		} else {
+			return name;
+		}
 	}
 
 //	public void setTeacher(String teacher) {
