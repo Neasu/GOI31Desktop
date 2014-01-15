@@ -1,7 +1,0 @@
-{
-    "id": "101VGERLACHGY31", // Wie bei Fronter, wenn ich noch Langeweile hab kann man sich auch mit Fronter authentifizieren
-    "firstname": "Valentin",
-    "lastname": "Gerlach",
-    "class": "GY31",
-    "courses": ["INF", "M", "D", "BWL", "KR"] // Array mit gewählten Fächern, siehe courses.json
-}

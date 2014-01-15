@@ -40,10 +40,7 @@ public class Profile {
 	 * @return Gibt true zurück wenn das Login erfolreich war.
 	 */
 	public boolean login() {
-		Request request = new Request("login", null, new JSONObject());
-		
-		request.getData().put("user", this.user);
-		request.getData().put("pass", this.pass);
+		Request request = new Request("ping", this.user, this.pass, new JSONObject());
 		
 		Response response = ServerExecutor.ExecuteRequest(request);
 		
@@ -71,7 +68,7 @@ public class Profile {
 		}
 		
 		// Neues Request Objekt anlegen
-		Request req = new Request("userdata", token, new JSONObject());
+		Request req = new Request("userinfo", this.user, this.pass, new JSONObject());
 		
 		// Weitere Daten werden nicht benötigt also abschicken
 		Response resp = ServerExecutor.ExecuteRequest(req);
@@ -81,7 +78,7 @@ public class Profile {
 			
 			this.firstname = data.getString("firstname");
 			this.lastname = data.getString("lastname");
-			this.grade = data.getString("grade");
+			this.grade = data.getString("class");
 		} else {
 			
 		}

@@ -20,16 +20,17 @@ import org.json.JSONStringer;
 public class ServerExecutor {
 	public static Response ExecuteRequest(Request request) {
 		// Rückgabe Objekt schon mal erzeugen
-		Response resp = new Response(request.getMethod(), 500, new JSONObject());
+		Response resp = new Response(request.getMethod(), 500, "Unknown Error", null, null);
 		
 		JSONObject bodyObject = new JSONObject();
 		
 		bodyObject.put("method", request.getMethod());
-		bodyObject.put("token", request.getToken());
+		bodyObject.put("user", request.getUser());
+		bodyObject.put("password", request.getPass());
 		bodyObject.put("data", request.getData());
 		
 		try {
-			URL url = new URL("https://www.ssl-id.de/apps.valentingerlach.de/gy31/api.php");
+			URL url = new URL("https://diskstation.valentingerlach.de/apis/goi31/api.php");
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			//HttpURLConnection con = (HttpURLConnection)url.openConnection();
 			

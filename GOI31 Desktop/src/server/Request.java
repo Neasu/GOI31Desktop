@@ -13,40 +13,66 @@ import org.json.JSONObject;
  */
 public class Request {
 
-	public Request(String _method, String _token, JSONObject _data) {
+	public Request(String _method, String _user, String _pass, JSONObject _data) {
 		this.method = _method;
-		this.token = _token;
+		this.user = _user;
+		this.pass = _pass;
 		this.data = _data;
 	}
 	
 	
 	private String method;
-	private String token;
+	private String user;
+	private String pass;
 	private JSONObject data;
 	
 	
+	/**
+	 * @return the method
+	 */
 	public String getMethod() {
 		return method;
 	}
-	
+	/**
+	 * @param method the method to set
+	 */
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	
-	public String getToken() {
-		return token;
+	/**
+	 * @return the user
+	 */
+	public String getUser() {
+		return user;
 	}
-	
-	public void setToken(String token) {
-		this.token = token;
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(String user) {
+		this.user = user;
 	}
-	
+	/**
+	 * @return the pass
+	 */
+	public String getPass() {
+		return pass;
+	}
+	/**
+	 * @param pass the pass to set
+	 */
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	/**
+	 * @return the data
+	 */
 	public JSONObject getData() {
 		return data;
 	}
-	
+	/**
+	 * @param data the data to set
+	 */
 	public void setData(JSONObject data) {
 		this.data = data;
 	}
-	
 }
