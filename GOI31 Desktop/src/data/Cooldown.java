@@ -24,7 +24,7 @@ public class Cooldown implements core.Updateable {
 	}
 	
 	// Methods	
-	public void init (int cd, boolean active) {
+	private void init (int cd, boolean active) {
 		cal = Calendar.getInstance();
 		cooldown = (Calendar) cal.clone();
 		

@@ -121,11 +121,10 @@ public class TimePair {
 	
 	/**
 	 * 
-	 * @param time
+	 * @param time 	[0] Seconds [1] Minutes [2] Hours [4] Days [5] Months [6] Years
 	 * @param format Available Formats: "ss", "mm", "hh", "mm:ss", "hh:mm", "hh:mm:ss", "dd.mm.yy", "dd.mm.yy hh:mm:ss" 
 	 * @return
 	 */
-	// [0] Seconds [1] Minutes [2] Hours [4] Days [5] Months [6] Years
 	public static String formatTime(int[] time,  String format) {
 		String temp = "";
 		
@@ -241,12 +240,15 @@ public class TimePair {
 		
 		int startTimeHour = startTime.get(Calendar.HOUR_OF_DAY);
 		int startTimeMinu = startTime.get(Calendar.MINUTE);
+		int startTimeSeco = startTime.get(Calendar.SECOND);
 		
 		int endTimeHour = endTime.get(Calendar.HOUR_OF_DAY);
 		int endTimeMinu = endTime.get(Calendar.MINUTE);
+		int endTimeSeco = endTime.get(Calendar.SECOND);
 		
 		int calHour = cal.get(Calendar.HOUR_OF_DAY);
 		int calMinu = cal.get(Calendar.MINUTE);
+		int calSeco = cal.get(Calendar.SECOND);
 		
 		if (startTimeHour < calHour) {
 			
@@ -254,8 +256,18 @@ public class TimePair {
 			
 		} else if (startTimeHour == calHour) {
 			
-			if (startTimeMinu <= calMinu) {
+			if (startTimeMinu < calMinu) {
+				
 				startTimeIsBefore = true;
+				
+			} else if (startTimeMinu == calMinu) {
+				
+				if (startTimeSeco <= calSeco) {
+					
+					startTimeIsBefore = true;
+					
+				}
+				
 			}
 		}
 		
@@ -265,8 +277,16 @@ public class TimePair {
 			
 		} else if (endTimeHour == calHour) {
 			
-			if (endTimeMinu >= calMinu) {
+			if (endTimeMinu > calMinu) {
+				
 				endTimeIsAfter = true;
+				
+			} else if (endTimeMinu == calMinu) {
+				
+				if (endTimeSeco >= calSeco) {
+					endTimeIsAfter = true;
+				}
+				
 			}
 		}
 		
