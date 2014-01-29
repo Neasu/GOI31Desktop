@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
 
+import core.LogLevel;
+import file.LogFile;
 import server.Request;
 import server.Response;
 import server.ServerExecutor;
@@ -28,9 +30,8 @@ public class Profile {
 	private String pass; 				// Passwort (geheim) :D
 	private String firstname; 			// Vorname z.B. Thomas
 	private String lastname; 			// Nachname z.B. Müller
-	private String grade; 				// Jahrgangsstufe z.B. GY31
+	private String grade; 				// Jahrgangsstufe z.B. GOI31
 	private boolean loggedIn = false; 	// Schon eingeloggt?
-	private String token;
 	
 	private List<Course> courses = new ArrayList<Course>();
 	
@@ -41,6 +42,9 @@ public class Profile {
 	 */
 	public boolean login() {
 		Request request = new Request("ping", this.user, this.pass, new JSONObject());
+		
+		// Logging FTW
+		LogFile.getRef().textout("Trying to login...", LogLevel.INFO);
 		
 		Response response = ServerExecutor.ExecuteRequest(request);
 		
