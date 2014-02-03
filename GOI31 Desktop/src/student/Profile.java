@@ -30,7 +30,7 @@ public class Profile {
 	private String pass; 				// Passwort (geheim) :D
 	private String firstname; 			// Vorname z.B. Thomas
 	private String lastname; 			// Nachname z.B. Müller
-	private String grade; 				// Jahrgangsstufe z.B. GOI31
+	private String grade; 				// Jahrgangsstufe z.B. GY31
 	private boolean loggedIn = false; 	// Schon eingeloggt?
 	
 	private List<Course> courses = new ArrayList<Course>();
