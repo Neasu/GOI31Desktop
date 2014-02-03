@@ -39,8 +39,9 @@ public class Profile {
 	 * Diese Methode wird zum einloggen auf dem Server verwendet.
 	 * 
 	 * @return Gibt true zurück wenn das Login erfolreich war.
+	 * @throws Exception 
 	 */
-	public boolean login() {
+	public boolean login() throws Exception {
 		Request request = new Request("ping", this.user, this.pass, new JSONObject());
 		
 		// Logging FTW
@@ -51,7 +52,7 @@ public class Profile {
 		boolean responseValid = (response.getStatus() == 200);
 		
 		if (!responseValid) {
-			JOptionPane.showMessageDialog(null, "Fehler beim Einloggen! Überprüfe bitte deine Zugangsdaten! (Error Code " + Integer.toString(response.getStatus()) + ")", "Fehler beim Einloggen!", JOptionPane.ERROR_MESSAGE);
+			throw new Exception("Fehler beim Einloggen! Überprüfe bitte deine Zugangsdaten! (Error Code " + Integer.toString(response.getStatus()) + ")");
 		}
 		
 		this.loggedIn = responseValid;
@@ -61,8 +62,9 @@ public class Profile {
 	
 	/**
 	 * Füllt das Benutzerprofil mit Daten, indem es diese vom Server herunterlädt.
+	 * @throws Exception 
 	 */
-	public void populateProfile() {
+	public void populateProfile() throws Exception {
 		// Wenn noch nicht eingeloggt, einloggen!
 		if(!this.loggedIn) {
 			// Falls das fehl schlägt die Methode verlassen
@@ -84,7 +86,7 @@ public class Profile {
 			this.lastname = data.getString("lastname");
 			this.grade = data.getString("class");
 		} else {
-			
+			throw new Exception("Fehler! Status Code ist nicht ok (200). Status Code ist " + resp.getStatus());
 		}
 	}
 }
