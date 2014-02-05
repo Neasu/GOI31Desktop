@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import core.LogLevel;
 import file.LogFile;
+import student.Profile;
 
 public class LogonScreen extends Screen {
 
@@ -110,6 +111,7 @@ public class LogonScreen extends Screen {
 	public class logInButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Login attempt checken!
+			
 			lblErrorMsg.setText ("Login gerade nicht möglich!");
 		}
 	}

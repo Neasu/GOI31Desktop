@@ -203,7 +203,9 @@ public class Schedule implements core.Updateable {
 		
 		// Wenn es Wochenende oder auﬂerhalb der Schulzeiten ist, dann FreeLeson
 			if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
+			{
 				return new FreeLesson(new TimePair (), false);
+			}
 		
 		for (int i = 0; i < lessonsPerDay; i++) {
 			

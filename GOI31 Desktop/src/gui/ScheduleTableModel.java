@@ -6,7 +6,6 @@ import data.FreeLesson;
 import data.Lesson;
 import data.NormalLesson;
 import data.ProxyLesson;
-import data.TimePair;
 
 public class ScheduleTableModel extends AbstractTableModel {
 
@@ -64,7 +63,8 @@ public class ScheduleTableModel extends AbstractTableModel {
 				
 				nl = (NormalLesson) lesson;
 				
-				temp += " Fach: ";
+//				temp += " Fach: ";
+				temp += " ";
 				
 				if (ms.getCheckBox_3()) {
 					temp += nl.getShorty();
@@ -80,12 +80,14 @@ public class ScheduleTableModel extends AbstractTableModel {
 			}
 			
 			if (ms.getCheckBox_1()) {
-				temp += " Lehrer: ";
+//				temp += " Lehrer: ";
+				temp += " ";
 				temp += nl.getTeacher();
 			}
 			
 			if (ms.getCheckBox_2()) {
-				temp += " Raum: ";
+//				temp += " Raum: ";
+				temp += " ";
 				temp += nl.getRoom();
 			}
 			
