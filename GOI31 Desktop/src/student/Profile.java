@@ -3,12 +3,11 @@ package student;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.json.JSONObject;
 
 import core.LogLevel;
 import file.LogFile;
+import server.ApiServerException;
 import server.Request;
 import server.Response;
 import server.ServerExecutor;
@@ -46,13 +45,15 @@ public class Profile {
 		
 		// Logging FTW
 		LogFile.getRef().textout("Trying to login...", LogLevel.INFO);
+		LogFile.getRef().textout("Username: " + this.user, LogLevel.INFO);
+		LogFile.getRef().textout("Password: " + this.pass, LogLevel.INFO);
 		
 		Response response = ServerExecutor.ExecuteRequest(request);
 		
 		boolean responseValid = (response.getStatus() == 200);
 		
 		if (!responseValid) {
-			throw new Exception("Fehler beim Einloggen! Überprüfe bitte deine Zugangsdaten! (Error Code " + Integer.toString(response.getStatus()) + ")");
+			throw new ApiServerException("Fehler beim Einloggen! Überprüfe bitte deine Zugangsdaten! (Error Code " + Integer.toString(response.getStatus()) + ")");
 		}
 		
 		this.loggedIn = responseValid;
@@ -69,7 +70,7 @@ public class Profile {
 		if(!this.loggedIn) {
 			// Falls das fehl schlägt die Methode verlassen
 			if (!this.login()) {
-				return;
+				
 			}
 		}
 		
@@ -86,7 +87,9 @@ public class Profile {
 			this.lastname = data.getString("lastname");
 			this.grade = data.getString("class");
 		} else {
-			throw new Exception("Fehler! Status Code ist nicht ok (200). Status Code ist " + resp.getStatus());
+			throw new ApiServerException("Fehler! Status Code ist nicht ok (200). Status Code ist " + resp.getStatus());
 		}
 	}
+	
+	
 }
