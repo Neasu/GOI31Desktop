@@ -12,8 +12,9 @@ public class Schedule implements core.Updateable {
 	private Lesson lessons[][] = new Lesson[5][lessonsPerDay]; // Tabelle mit allen Fächern [5] -> 5 Wochentage [10] -> 10 Stunden am Tag
 	private TimePair schoolDay;
 	private Calendar cal = Calendar.getInstance();
-	private TimePair times[] = new TimePair[lessonsPerDay]; // Tabelle mit den
-													// Stundenzeiten
+	private TimePair times[] = new TimePair[lessonsPerDay]; // Tabelle mit den Stundenzeiten
+	private NormalLesson errorLesson = new NormalLesson(new TimePair(), "ERROR", "", "");
+	private NormalLesson pauseLesson = new NormalLesson(new TimePair(), "Pause", "", "");
 
 	// Constructors
 
@@ -45,8 +46,6 @@ public class Schedule implements core.Updateable {
 		times[7] = new TimePair(14, 15, 15, 0);
 		times[8] = new TimePair(15, 15, 16, 0);
 		times[9] = new TimePair(16, 0, 16, 45);
-		
-		schoolDay = new TimePair(times[0].getStartTime(), times[lessonsPerDay - 1].getEndTime());
 		
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < lessonsPerDay; j++) {
@@ -109,8 +108,11 @@ public class Schedule implements core.Updateable {
 		addNormalLesson(4, 4, "Wirtschaftslehre", "WOL", "C008");
 		addNormalLesson(4, 5, "Wirtschaftslehre", "WOL", "C008");
 		
-		addNormalLesson(4, 6, "Techinsche Informatik", "BOL", "C019");
-		addNormalLesson(4, 7, "Techinsche Informatik", "BOL", "C019");
+		addNormalLesson(4, 6, "Techinsche Informatik", "BO", "C019");
+		addNormalLesson(4, 7, "Techinsche Informatik", "BO", "C019");
+		
+		// Darf erst nach der Initialisierung des Stundenplans aufgerufen werden!
+		updateSchoolday();
 		
 		LogFile.getRef().textout("Schedule has been initialized.", LogLevel.LOG);
 	}
@@ -180,6 +182,7 @@ public class Schedule implements core.Updateable {
 	
 	public Lesson getCurrentLesson () {
 		int today = TimePair.getTodayAsInt(cal);
+		TimePair tempTP;
 		
 		// Wenn es Wochenende oder außerhalb der Schulzeiten ist, dann FreeLeson
 		if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
@@ -189,11 +192,20 @@ public class Schedule implements core.Updateable {
 		for (int i = 0; i < lessonsPerDay; i++) {
 			if (getLesson(today - 1, i).getTime().isInBetween(cal)) {
 				return getLesson (today - 1, i);
+			} else {
+				// Zeit zwischen der Aktuellen und der nächsten Stunde
+				tempTP = new TimePair (getLesson (today - 1, i).getTime().getEndTime(), getLesson(today - 1, i + 1).getTime().getStartTime());
+				
+				if (tempTP.isInBetween(cal)) {
+					pauseLesson.setTime(tempTP);
+					return pauseLesson;
+				}
+				
 			}
 		}
 		
 		LogFile.getRef().textout("The current Lesson couldn't been found.", LogLevel.ERROR);
-		return new NormalLesson(new TimePair(), "ERROR", "", "");
+		return errorLesson;
 	}
 	
 	public Lesson getNextLesson () {
@@ -203,9 +215,7 @@ public class Schedule implements core.Updateable {
 		
 		// Wenn es Wochenende oder außerhalb der Schulzeiten ist, dann FreeLeson
 			if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
-			{
 				return new FreeLesson(new TimePair (), false);
-			}
 		
 		for (int i = 0; i < lessonsPerDay; i++) {
 			
@@ -219,7 +229,7 @@ public class Schedule implements core.Updateable {
 		}
 		
 		LogFile.getRef().textout("The next Lesson couldn't been found.", LogLevel.ERROR);
-		return new NormalLesson(new TimePair (), "ERROR", "", "");
+		return errorLesson;
 	}
 	
 	// Gibt die Zeit bis zum Ende der aktuellen Stunde als String zurück
@@ -234,6 +244,80 @@ public class Schedule implements core.Updateable {
 		return temp;
 	}
 	
+	public Lesson getTodaysFirstLesson () {
+		int today = TimePair.getTodayAsInt(cal);
+		
+		if (today == 6 || today == 7) {
+			return new FreeLesson(new TimePair (), false);
+		}
+		
+		for (int i = 0; i < lessonsPerDay; i++) {
+			if (!IsLessonIgnoreable(lessons[today - 1][i])) {
+				LogFile.getRef().textout("Todays first Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.INFO);
+				return lessons[today - 1] [i];
+			}
+		}
+		
+		LogFile.getRef().textout("Todays first Lesson couldn't been found!", LogLevel.ERROR);
+		return errorLesson;
+	
+	}
+	
+	public Lesson getTodaysLastLesson () {
+		// Wann ist es die letzte Stunde? Wenn alle folgenden Stunden frei sind!
+		
+		int today = TimePair.getTodayAsInt(cal);
+		boolean isLastLesson = false;
+		
+		if (today == 6 || today == 7) {
+			return new FreeLesson(new TimePair (), false);
+		}
+		
+		for (int i = 0; i < lessonsPerDay; i++) {
+			
+			if (!IsLessonIgnoreable(lessons[today - 1][i])) {
+				
+				isLastLesson = true;
+				
+				for (int j = i + 1; j < lessonsPerDay; j++) {
+					if (!IsLessonIgnoreable(lessons[today - 1][j])) {
+						isLastLesson = false;
+						break;
+					}
+				}
+				
+				if (isLastLesson) {
+					LogFile.getRef().textout("Todays last Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.INFO);
+					return lessons[today - 1][i];
+				}
+				
+			}
+		}
+		
+		LogFile.getRef().textout("Todays last Lesson couldn't been found!", LogLevel.ERROR);
+		return errorLesson;
+	}
+	
+	public boolean IsLessonIgnoreable (Lesson less) {
+		if (less.getClass().equals(NormalLesson.class)) {
+			return false;
+		} else if (less.getClass().equals(ProxyLesson.class)) {
+			return false;
+		} else {
+			FreeLesson fl = (FreeLesson) less;
+			
+			if (fl.isEntfall()) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	
+	public void updateSchoolday () {
+		schoolDay = new TimePair(getTodaysFirstLesson().getTime().getStartTime(), getTodaysLastLesson().getTime().getEndTime());
+	}
+	
 	public void update () {
 		cal = Calendar.getInstance();
 		
@@ -244,6 +328,8 @@ public class Schedule implements core.Updateable {
 	public void updateData () {
 		//TODO Make Code here!
 		LogFile.getRef().textout("Updating Schedule Data", LogLevel.LOG);
+		
+		updateSchoolday();
 	}
 
 	public int getLessonsPerDay() {

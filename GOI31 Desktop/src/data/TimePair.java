@@ -18,8 +18,13 @@ public class TimePair {
 	}
 
 	public TimePair(int startHour, int startMinute, int endHour, int endMinute) {
-		startTime = buildCalendar(startHour, startMinute);
-		endTime = buildCalendar(endHour, endMinute);
+		startTime = buildCalendar(startHour, startMinute, 0);
+		endTime = buildCalendar(endHour, endMinute, 0);
+	}
+	
+	public TimePair(int startHour, int startMinute, int startSecond, int endHour, int endMinute, int endSecond) {
+		startTime = buildCalendar(startHour, startMinute, startSecond);
+		endTime = buildCalendar(endHour, endMinute, endSecond);
 	}
 
 	public TimePair(Calendar start, Calendar end) {
@@ -81,13 +86,27 @@ public class TimePair {
 
 		if (hours > 24) {
 			hours = 00;
-		} else if (minutes > 59) {
+		}
+		
+		if (minutes > 59) {
 			minutes = 00;
 		}
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, hours);
 		cal.set(Calendar.MINUTE, minutes);
+
+		return cal;
+	}
+	
+	public static Calendar buildCalendar(int hours, int minutes, int seconds) {
+		
+		if (seconds > 59) {
+			seconds = 00;
+		}
+
+		Calendar cal = buildCalendar(hours, minutes);
+		cal.set(Calendar.SECOND, seconds);
 
 		return cal;
 	}
@@ -100,6 +119,7 @@ public class TimePair {
 		
 		return temp;
 	}
+
 	
 	public static String formatTime (Calendar cal, String format) {
 		String temp = "";

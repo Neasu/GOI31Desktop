@@ -26,6 +26,7 @@ public class LogonScreen extends Screen {
 	private JButton btnLogIn;
 	private JButton btnStartOffline;
 	private JLabel lblErrorMsg;
+	private Profile user;
 
 	// Constructors
 	public LogonScreen(GUIManager guim) {
@@ -112,7 +113,13 @@ public class LogonScreen extends Screen {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Login attempt checken!
 			
-			lblErrorMsg.setText ("Login gerade nicht möglich!");
+			user = new Profile (textField.getText(), String.copyValueOf(passwordField.getPassword()));
+			
+			try {
+				user.login ();
+			} catch (Exception ex) {
+				lblErrorMsg.setText (ex.getMessage());
+			}
 		}
 	}
 

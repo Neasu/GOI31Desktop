@@ -1,8 +1,10 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import data.Schedule;
+import data.TimePair;
 import file.LogFile;
 import gui.GUIManager;
 
@@ -11,6 +13,7 @@ public class Program implements Runnable {
 	private boolean isRunning = true;
 	private LogFile logf;
 	private boolean isOnline = false;
+	private int today = TimePair.getTodayAsInt(Calendar.getInstance());
 	
 	private Schedule sche;		// TODO Change into only-one-ref
 	private GUIManager guim;
@@ -40,6 +43,13 @@ public class Program implements Runnable {
 			// Update aufrufen
 			for (Updateable upd : updateList) {
 				upd.update();
+			}
+			
+			// Ist heute noch der gleiche Tag?
+			if (today != TimePair.getTodayAsInt(Calendar.getInstance())) {
+				LogFile.getRef().textout("A new Day has begun! Good Morning!", LogLevel.INFO);
+				today = TimePair.getTodayAsInt(Calendar.getInstance());
+				sche.updateData();
 			}
 			
 			// Schleife verlangsamen

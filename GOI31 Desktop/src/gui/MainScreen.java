@@ -34,6 +34,7 @@ public class MainScreen extends Screen implements core.Updateable{
 	private JLabel label_2;
 	private JPanel panel_1;
 	private JPanel panel_2;
+	private JPanel panel_3;
 	private JButton button_1;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
@@ -75,11 +76,15 @@ public class MainScreen extends Screen implements core.Updateable{
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
-		JPanel panel_2 = new JPanel();
-		panel_1.add(panel_2, BorderLayout.EAST);
-		
+		panel_2 = new JPanel();
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 
+		
+		panel_3 = new JPanel();
+		panel_3.setLayout(new BorderLayout ());
+
+		panel_3.add(panel_2, BorderLayout.EAST);
+		
 		button_1 = new JButton("Update");
 		panel_2.add(button_1);
 		
@@ -107,7 +112,9 @@ public class MainScreen extends Screen implements core.Updateable{
 		// };
 
 		table = new JTable(new ScheduleTableModel(this));
-		panel_1.add(table, BorderLayout.CENTER);
+		panel_3.add(table, BorderLayout.CENTER);
+		
+		panel_1.add(panel_3, BorderLayout.NORTH);
 		
 		table.setEnabled(false);
 		
@@ -115,7 +122,7 @@ public class MainScreen extends Screen implements core.Updateable{
 		table.getColumnModel().getColumn(0).setMaxWidth(100);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panel_1.add(tabbedPane, BorderLayout.SOUTH);
+		panel_1.add(tabbedPane, BorderLayout.CENTER);
 
 		label_2 = new JLabel("Label 2");
 		tabbedPane.addTab("New tab", null, label_2, null);
@@ -136,6 +143,8 @@ public class MainScreen extends Screen implements core.Updateable{
 		mnNewMenu.add(mntmLaden);
 
 		centerWindowOnScreen();
+		
+		update ();
 
 		frame.setVisible(true);
 		
@@ -154,6 +163,12 @@ public class MainScreen extends Screen implements core.Updateable{
 		String temp = "";
 		
 		temp += GUIManager.getProg().getSche().getCurrTime();
+		
+		// Muss die aktuelle Stunde angezeigt werden?
+		if (GUIManager.getProg().getSche().IsLessonIgnoreable(currLesson)) {
+			toolBarLabel.setText(temp);
+			return;
+		}
 		
 		temp += " | ";
 		
