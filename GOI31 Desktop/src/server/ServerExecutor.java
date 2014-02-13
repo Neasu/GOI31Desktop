@@ -4,21 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.swing.JOptionPane;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
+
+import core.LogLevel;
+import file.LogFile;
 
 public class ServerExecutor {
-	public static Response ExecuteRequest(Request request) {
+	public static Response ExecuteRequest(Request request) throws ApiServerException {
 		// Rückgabe Objekt schon mal erzeugen
 		Response resp = new Response(request.getMethod(), 500, "Unknown Error", null, null);
 		
@@ -30,6 +27,8 @@ public class ServerExecutor {
 		bodyObject.put("data", request.getData());
 		
 		try {
+			
+			
 			URL url = new URL("https://diskstation.valentingerlach.de/apis/goi31/api.php");
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			//HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -71,15 +70,19 @@ public class ServerExecutor {
 			
 			reader.close();
 			
+			LogFile.getRef().textout(response.toString(), LogLevel.LOG);
+			
 			resp.setPlainResponse(response.toString());
 			JSONObject responseObject = new JSONObject(resp.getPlainResponse());
 			
 			resp.setStatus(responseObject.getInt("status"));
 			resp.setData(responseObject.getJSONObject("data"));
+		} catch (IOException e) {
+			throw new ApiServerException("Konnte keine Verbindung mit dem API Server herstellen! Bitte überprüfe deine Internetverbindung!");
+		} catch (JSONException e) {
+			throw new ApiServerException("Konnte JSON Objekt nicht parsen! Bitte befolge die Anweisungen auf www.goi31app.de/report-bug");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error while fetching data!", JOptionPane.PLAIN_MESSAGE);
+			throw new ApiServerException("Unerwarteter Fehler! Bitte befolge die Anweisungen auf www.goi31app.de/report-bug");
 		}
 		
 		// Objekt zurückgeben
