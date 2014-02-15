@@ -7,6 +7,12 @@ import data.Lesson;
 import data.NormalLesson;
 import data.ProxyLesson;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class ScheduleTableModel extends AbstractTableModel {
 
 	// Vars

@@ -12,6 +12,12 @@ import core.LogLevel;
 import file.ImageFile;
 import file.LogFile;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class LogoScreen extends Screen {
 	
 	private Image img;

@@ -3,6 +3,7 @@ package core;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import network.ChatSystem;
 import data.Schedule;
 import data.TimePair;
 import file.ConfigFile;
@@ -29,6 +30,8 @@ public class Program implements Runnable {
 	private static ArrayList<Updateable> updateList;
 	private ConfigFile conf;
 	
+	private ChatSystem chat;
+	
 	
 	public void run () {
 		
@@ -45,6 +48,10 @@ public class Program implements Runnable {
 		
 		// ConfigFile
 		conf  = new ConfigFile ();
+		
+		// ChatSystem
+		chat = new ChatSystem ();
+		chat.start();
 		
 		// GUIManager Initialisieren
 		guim = new GUIManager(this);

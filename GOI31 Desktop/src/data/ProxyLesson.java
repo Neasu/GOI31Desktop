@@ -1,5 +1,11 @@
 package data;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class ProxyLesson extends NormalLesson {
 
 	// Vars

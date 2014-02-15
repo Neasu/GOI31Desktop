@@ -1,5 +1,10 @@
 package data;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
 
 public abstract class Lesson {
 

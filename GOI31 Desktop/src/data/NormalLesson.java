@@ -3,6 +3,12 @@ package data;
 import core.LogLevel;
 import file.LogFile;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class NormalLesson extends Lesson {
 
 	// Vars

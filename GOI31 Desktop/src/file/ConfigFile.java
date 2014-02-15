@@ -43,29 +43,28 @@ public class ConfigFile extends TextFile {
 		} catch (IOException ex) {
 			LogFile.getRef().textout("The config file couldn't been refreshed! " + ex.getMessage(), LogLevel.ERROR);
 		}
-		
+
 	}
-	
-	private void read () {
+
+	private void read() {
 		while (true) {
-			
+
 			try {
-				
+
 				String temp = reader.readLine();
-				
-//				System.out.println(temp);
-				
+
+				// System.out.println(temp);
+
 				if (temp == null) {
 					break;
 				}
-				
-				pairList.add (temp);
-				
-				
+
+				pairList.add(temp);
+
 			} catch (IOException ex) {
 				LogFile.getRef().textout("The config file couldn't been read.", LogLevel.WARNING);
 			}
-			
+
 		}
 	}
 
@@ -100,7 +99,12 @@ public class ConfigFile extends TextFile {
 	public String getString(String key) {
 		for (String temp : pairList) {
 			if (temp.split(":")[0].equals(key)) {
-				return temp.split(":")[1];
+				if (temp.split(":").length > 1) {
+					return temp.split(":")[1];
+				} else {
+					return "";
+				}
+					
 			}
 		}
 
@@ -177,14 +181,14 @@ public class ConfigFile extends TextFile {
 			return;
 		}
 	}
-	
-	public void closeConfigFile () {
+
+	public void closeConfigFile() {
 		try {
 			reader.close();
 			writer.close();
 		} catch (Exception e) {
 			LogFile.getRef().textout("The config file couldn't been closed", LogLevel.ERROR);
 		}
-		
+
 	}
 }

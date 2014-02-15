@@ -2,6 +2,12 @@ package data;
 
 import java.util.Calendar;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class Cooldown implements core.Updateable {
 	
 	// Vars
@@ -30,7 +36,7 @@ public class Cooldown implements core.Updateable {
 		
 		coolDownValue = cd;
 		
-		cooldown.add (Calendar.MINUTE, coolDownValue);
+		cooldown.add (Calendar.SECOND, coolDownValue);
 		core.Program.addUpdateable(this);
 		this.active = active;
 	}

@@ -1,5 +1,11 @@
 package data;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class FreeLesson extends Lesson {
 
 	// Vars

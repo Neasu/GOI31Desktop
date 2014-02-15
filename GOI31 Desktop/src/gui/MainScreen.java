@@ -66,7 +66,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		screenName = "MainScreen";
 		screenID = 2;
 
-		cooldown = new Cooldown(1, false);
+		cooldown = new Cooldown(60, false);
 
 		Init();
 	}

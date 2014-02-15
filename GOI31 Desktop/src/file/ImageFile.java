@@ -10,6 +10,12 @@ import javax.imageio.ImageIO;
 
 import core.FunctionResult;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class ImageFile extends FileSystem {
 	
 	// Vars
