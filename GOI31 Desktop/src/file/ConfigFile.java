@@ -35,6 +35,7 @@ public class ConfigFile extends TextFile {
 
 			for (String temp : pairList) {
 				writer.write(temp);
+				writer.newLine();
 			}
 
 			writer.flush();
@@ -74,7 +75,7 @@ public class ConfigFile extends TextFile {
 			remove(key);
 		}
 
-		pairList.add(key + ":" + value + "\n");
+		pairList.add(key + ":" + value);
 
 		refresh();
 	}
