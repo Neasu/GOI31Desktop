@@ -5,8 +5,15 @@ import java.util.Calendar;
 
 import data.Schedule;
 import data.TimePair;
+import file.ConfigFile;
 import file.LogFile;
 import gui.GUIManager;
+
+/**
+ * 
+ * @author Kevin
+ *
+ */
 
 public class Program implements Runnable {
 	
@@ -15,9 +22,12 @@ public class Program implements Runnable {
 	private boolean isOnline = false;
 	private int today = TimePair.getTodayAsInt(Calendar.getInstance());
 	
+	private String username = "";
+	
 	private Schedule sche;		// TODO Change into only-one-ref
 	private GUIManager guim;
 	private static ArrayList<Updateable> updateList;
+	private ConfigFile conf;
 	
 	
 	public void run () {
@@ -32,6 +42,9 @@ public class Program implements Runnable {
 		
 		// Schedule initiieren
 		sche = new Schedule ();
+		
+		// ConfigFile
+		conf  = new ConfigFile ();
 		
 		// GUIManager Initialisieren
 		guim = new GUIManager(this);
@@ -96,6 +109,18 @@ public class Program implements Runnable {
 
 	public GUIManager getGuim() {
 		return guim;
+	}
+	
+	public String getUserName () {
+		return username;
+	}
+	
+	public void setUserName (String username) {
+		this.username = username;
+	}
+	
+	public ConfigFile getConfigFile () {
+		return conf;
 	}
 	
 }

@@ -8,6 +8,12 @@ import java.io.FileWriter;
 
 import core.LogLevel;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class TextFile extends FileSystem {
 	
 	// Vars
@@ -34,8 +40,9 @@ public class TextFile extends FileSystem {
 	protected void initWriterReader () 
 	{ 
 		try{
+			file.createNewFile();
 			reader = new BufferedReader(new FileReader(file));
-			writer = new BufferedWriter(new FileWriter(file));
+			writer = new BufferedWriter(new FileWriter(file, true));
 		} catch (Exception ex) {
 			LogFile.getRef().textout("Failed to initialize Reader and Writer: " + ex.getMessage(), LogLevel.ERROR);
 		}

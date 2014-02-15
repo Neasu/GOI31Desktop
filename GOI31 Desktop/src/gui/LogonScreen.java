@@ -14,8 +14,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import core.LogLevel;
+import file.ImageFile;
 import file.LogFile;
 import student.Profile;
+
+/**
+ * 
+ * @author Kevin
+ *
+ */
 
 public class LogonScreen extends Screen {
 
@@ -53,6 +60,7 @@ public class LogonScreen extends Screen {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		frame.setContentPane(contentPane);
+		frame.setIconImage(new ImageFile("res/gy31Icon_256x256.png").getImage());
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
@@ -73,6 +81,9 @@ public class LogonScreen extends Screen {
 		contentPane.add (lblErrorMsg, BorderLayout.NORTH);
 		
 		textField = new JTextField();
+		
+		textField.setText (GUIManager.getProg().getConfigFile().getString("Username"));
+		
 		textField.setBounds(189, 78, 87, 20);
 		panel_1.add(textField);
 		textField.setColumns(15);
@@ -105,6 +116,8 @@ public class LogonScreen extends Screen {
 			guim.getMainScreen();
 			GUIManager.getProg().setOnline(false);
 			setVisible(false);
+			GUIManager.getProg().getConfigFile().addPair("Online", false);
+			GUIManager.getProg().getConfigFile().addPair("Username", textField.getText());
 			LogFile.getRef().textout("Application is running in Offline-Mode.", LogLevel.LOG);
 		}
 	}
@@ -115,11 +128,21 @@ public class LogonScreen extends Screen {
 			
 			user = new Profile (textField.getText(), String.copyValueOf(passwordField.getPassword()));
 			
+			GUIManager.getProg().getConfigFile().addPair("Username", textField.getText());
+			
 			try {
 				user.login ();
 			} catch (Exception ex) {
 				lblErrorMsg.setText (ex.getMessage());
+				GUIManager.getProg().getConfigFile().addPair("Online", false);
+				return;
 			}
+			
+			GUIManager.getProg().setUserName(textField.getText());
+			GUIManager.getProg().setOnline(true);
+			
+			GUIManager.getProg().getConfigFile().addPair("Online", true);
+			
 		}
 	}
 

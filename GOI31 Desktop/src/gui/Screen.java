@@ -8,6 +8,12 @@ import javax.swing.JFrame;
 import core.LogLevel;
 import file.LogFile;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public abstract class Screen {
 
 	// Vars
@@ -44,6 +50,33 @@ public abstract class Screen {
 		frame.setLocation(a, b);
 		
 		LogFile.getRef().textout("The Screen: " + screenName + " has been centered at X: " + a + " Y: " + b, LogLevel.INFO);
+	}
+	
+	public void resizeToScreen (int xpercent, int ypercent) {
+		
+		if (xpercent > 100 || xpercent < 0 || ypercent > 100 || ypercent < 0) {
+			LogFile.getRef().textout("The Screen: " + screenName + " couldn't been resized to the wished parameters x%: " + xpercent + " y%: " + ypercent, LogLevel.WARNING);
+			resizeToScreen();
+			return;
+		}
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		int a = (int) dim.getWidth() * xpercent / 100;
+		int b = (int) dim.getHeight() * ypercent / 100;
+		
+		width = a;
+		height = b;
+		
+		frame.setBounds(0, 0, a, b);
+		
+		LogFile.getRef().textout("The Screen: " + screenName + " has been resized to Width: " + a + " and Height: " + b , LogLevel.INFO);
+		
+		centerWindowOnScreen();
+	}
+	
+	public void resizeToScreen () {
+		resizeToScreen(70, 50);
 	}
 
 	

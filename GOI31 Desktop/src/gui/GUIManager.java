@@ -12,6 +12,12 @@ import core.LogLevel;
 import core.Program;
 import file.LogFile;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class GUIManager {
 	
 	// Vars
@@ -113,6 +119,9 @@ public class GUIManager {
 	public class ScreenListener extends WindowAdapter {
 		public void windowClosing (WindowEvent we) {
 			LogFile.getRef().textout("Programm is terminating.", LogLevel.LOG);
+			
+			// ConfigFile schlieﬂen
+			prog.getConfigFile().closeConfigFile();
 			
 			// Logfile schlieﬂen
 			LogFile.getRef().closeLogFile();

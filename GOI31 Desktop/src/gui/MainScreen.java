@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,24 +10,33 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.ScrollPaneConstants;
 
 import core.LogLevel;
 import core.Program;
 import data.Cooldown;
 import data.FreeLesson;
 import data.Lesson;
+import data.News;
 import data.NormalLesson;
 import data.ProxyLesson;
+import file.ImageFile;
 import file.LogFile;
 
-public class MainScreen extends Screen implements core.Updateable{
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
+public class MainScreen extends Screen implements core.Updateable {
 
 	private JTable table;
 	private JToolBar toolBar;
@@ -35,35 +45,40 @@ public class MainScreen extends Screen implements core.Updateable{
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
+	private JPanel tab1panel;
 	private JButton button_1;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
 	private JCheckBox checkBox_3;
-
+	private JTextArea newsArea;
 	
+	private JScrollPane scroller;
+
 	private Cooldown cooldown;
+	private News news;
 
 	public MainScreen(GUIManager guim) {
-		super (guim);
-		
+		super(guim);
+
 		// Screenwerte setzen
 		width = 1240;
 		height = 720; // Alt 315
 		screenName = "MainScreen";
 		screenID = 2;
-		
-		cooldown = new Cooldown(1,  false);
-		
-		Init ();
+
+		cooldown = new Cooldown(1, false);
+
+		Init();
 	}
 
 	private void Init() {
-		
+
 		frame = new JFrame();
 		frame.setTitle(core.Core.NAME);
 		frame.setBounds(100, 100, width, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setIconImage(new ImageFile("res/gy31Icon_256x256.png").getImage());
 
 		toolBar = new JToolBar();
 		frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
@@ -79,27 +94,30 @@ public class MainScreen extends Screen implements core.Updateable{
 		panel_2 = new JPanel();
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 
-		
 		panel_3 = new JPanel();
-		panel_3.setLayout(new BorderLayout ());
+		panel_3.setLayout(new BorderLayout());
 
 		panel_3.add(panel_2, BorderLayout.EAST);
-		
+
 		button_1 = new JButton("Update");
 		panel_2.add(button_1);
-		
+
+		// Checkboxes
+
 		checkBox_1 = new JCheckBox("Lehrer Anzeigen");
 		panel_2.add(checkBox_1);
 		checkBox_1.addActionListener(new CheckboxListener());
-		
+
 		checkBox_2 = new JCheckBox("Raum Anzeigen");
 		panel_2.add(checkBox_2);
 		checkBox_2.addActionListener(new CheckboxListener());
-		
+
 		checkBox_3 = new JCheckBox("Abkürzungen");
 		panel_2.add(checkBox_3);
 		checkBox_3.addActionListener(new CheckboxListener());
-		
+
+		// Update Button
+
 		button_1.addActionListener(new UpdateButtonListener());
 
 		//
@@ -111,124 +129,164 @@ public class MainScreen extends Screen implements core.Updateable{
 		// Integer(row*col); }
 		// };
 
+		// Table
+
 		table = new JTable(new ScheduleTableModel(this));
 		panel_3.add(table, BorderLayout.CENTER);
-		
+
 		panel_1.add(panel_3, BorderLayout.NORTH);
-		
+
 		table.setEnabled(false);
-		
+
 		// Die erste Spalte soll schmaler sein
 		table.getColumnModel().getColumn(0).setMaxWidth(100);
+
+		// TabbedPane
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panel_1.add(tabbedPane, BorderLayout.CENTER);
 
+		tab1panel = new JPanel(new BorderLayout());
+
+		// NewsArea
+
+		newsArea = new JTextArea();
+		scroller = new JScrollPane(newsArea);
+
+		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		tab1panel.add(scroller, BorderLayout.CENTER);
+
+		newsArea.setEditable(false);
+		newsArea.setLineWrap(true);
+		newsArea.setFont (new Font("Calibri", Font.PLAIN, 14));
+		
+		news = new News (newsArea);
+		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
+		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
+		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
+		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
+		
+		
+//		newsArea.setText("Hello World! \n");
+
 		label_2 = new JLabel("Label 2");
-		tabbedPane.addTab("New tab", null, label_2, null);
+		tabbedPane.addTab("News", null, tab1panel, null);
 
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("New tab", null, tabbedPane_1, null);
+		
+		// MenueBar
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		JMenu mnNewMenu = new JMenu("Datei");
-		menuBar.add(mnNewMenu);
-
-		JMenuItem mntmSpeichern = new JMenuItem("Speichern");
-		mnNewMenu.add(mntmSpeichern);
-
-		JMenuItem mntmLaden = new JMenuItem("Laden");
-		mnNewMenu.add(mntmLaden);
-
-		centerWindowOnScreen();
+		menuBar.add(label_2);
 		
-		update ();
+		if (GUIManager.getProg().isOnline()) {
+			label_2.setText("Eingeloggt als: " + GUIManager.getProg().getUserName());
+		} else {
+			label_2.setText("Offline-Modus");
+		}
+
+		// JMenu mnNewMenu = new JMenu("Datei");
+		// menuBar.add(mnNewMenu);
+		//
+		// JMenuItem mntmSpeichern = new JMenuItem("Speichern");
+		// mnNewMenu.add(mntmSpeichern);
+		//
+		// JMenuItem mntmLaden = new JMenuItem("Laden");
+		// mnNewMenu.add(mntmLaden);
+
+		// centerWindowOnScreen();
+		resizeToScreen();
+
+		update();
 
 		frame.setVisible(true);
-		
+
 		Program.addUpdateable(this);
-		
+
 		LogFile.getRef().textout("MainScreen successfully created.", LogLevel.LOG);
 	}
-	
-	private void buildToolbarLabel () {
-		
+
+	private void buildToolbarLabel() {
+
 		Lesson currLesson = GUIManager.getProg().getSche().getCurrentLesson();
 		Lesson nextLesson = GUIManager.getProg().getSche().getNextLesson();
-		
+
 		String timeTilLessonEnd = GUIManager.getProg().getSche().getTimeTilLessonEnd();
-		
+
 		String temp = "";
-		
+
 		temp += GUIManager.getProg().getSche().getCurrTime();
-		
+
 		// Muss die aktuelle Stunde angezeigt werden?
 		if (GUIManager.getProg().getSche().IsLessonIgnoreable(currLesson)) {
 			toolBarLabel.setText(temp);
 			return;
 		}
-		
+
 		temp += " | ";
-		
+
 		temp += "Aktuelle Stunde: ";
-		
+
 		if (currLesson.getClass().equals(FreeLesson.class)) {
-			
+
 			FreeLesson fl = (FreeLesson) currLesson;
-			
+
 			if (fl.isEntfall()) {
 				temp += "Entfall";
 			} else {
 				temp += "Frei";
 			}
-			
+
 		} else if (currLesson.getClass().equals(NormalLesson.class)) {
-			
+
 			NormalLesson nl = (NormalLesson) currLesson;
-			
+
 			temp += nl.getName();
-			
+
 		} else if (currLesson.getClass().equals(ProxyLesson.class)) {
-			
+
 			ProxyLesson pl = (ProxyLesson) currLesson;
-			
+
 			temp += pl.getName();
-			
+
 			temp += " Vertretung!";
 		}
-		
+
 		if (!timeTilLessonEnd.equals("")) {
 			temp += " | ";
 			temp += "Zeit bis Stundenende: ";
 			temp += timeTilLessonEnd;
 		}
-		
+
 		if (nextLesson.getClass().equals(NormalLesson.class)) {
-			
+
 			NormalLesson nl = (NormalLesson) nextLesson;
-			
+
 			temp += " | ";
 			temp += "Nächste Stunde: ";
-			
+
 			temp += nl.getName();
 		} else if (currLesson.getClass().equals(ProxyLesson.class)) {
-			
+
 			ProxyLesson pl = (ProxyLesson) currLesson;
-			
+
 			temp += " | ";
 			temp += "Nächste Stunde: ";
-			
+
 			temp += pl.getName();
-			
+
 			temp += " Vertretung!";
 		}
-		
+
 		toolBarLabel.setText(temp);
 	}
-	
-	public void manageUpdateButton () {
+
+	public void manageUpdateButton() {
 		if (cooldown.isActive()) {
 			button_1.setEnabled(false);
 			button_1.setText(cooldown.getTimeLeft());
@@ -237,12 +295,12 @@ public class MainScreen extends Screen implements core.Updateable{
 			button_1.setEnabled(true);
 		}
 	}
-	
-	public void update () {
+
+	public void update() {
 		buildToolbarLabel();
 		manageUpdateButton();
 	}
-	
+
 	public boolean getCheckBox_1() {
 		return checkBox_1.isSelected();
 	}
@@ -250,22 +308,30 @@ public class MainScreen extends Screen implements core.Updateable{
 	public boolean getCheckBox_2() {
 		return checkBox_2.isSelected();
 	}
-	
+
 	public boolean getCheckBox_3() {
 		return checkBox_3.isSelected();
 	}
 
+	public void setNewsText(String text) {
+		newsArea.setText(text);
+	}
+
+	public News getNewsObject() {
+		return news;
+	}
+
 	public class UpdateButtonListener implements ActionListener {
-		public void actionPerformed (ActionEvent ev) {			
+		public void actionPerformed(ActionEvent ev) {
 			if (!cooldown.isActive()) {
 				GUIManager.getProg().getSche().updateData();
 				cooldown.restart();
 			}
 		}
 	}
-	
+
 	public class CheckboxListener implements ActionListener {
-		public void actionPerformed (ActionEvent ev) {
+		public void actionPerformed(ActionEvent ev) {
 			table.revalidate();
 			table.repaint();
 		}

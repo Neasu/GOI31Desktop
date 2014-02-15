@@ -9,6 +9,12 @@ import core.FunctionResult;
 import data.TimePair;
 import core.LogLevel;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class LogFile extends TextFile implements core.Updateable {
 
 	// Vars

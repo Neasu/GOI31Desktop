@@ -2,6 +2,12 @@ package file;
 
 import java.io.*;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 abstract class FileSystem {
 
 	// Vars

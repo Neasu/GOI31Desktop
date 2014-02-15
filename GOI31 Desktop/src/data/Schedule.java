@@ -5,6 +5,12 @@ import java.util.Calendar;
 import core.LogLevel;
 import file.LogFile;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
+
 public class Schedule implements core.Updateable {
 
 	// Vars
