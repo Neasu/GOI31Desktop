@@ -2,6 +2,7 @@ package data;
 
 import javax.swing.JTextArea;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -9,7 +10,6 @@ import org.json.JSONObject;
  * @author Kevin
  *
  */
-
 public class News {
 	
 	// Vars
@@ -23,7 +23,17 @@ public class News {
 	
 	// Methods
 	public void addNews (JSONObject json) {
-		json.getJSONObject("news");
+		
+		JSONArray jarray = json.getJSONArray("news");
+		JSONObject jobj;
+		
+		for (int i = 0; i < jarray.length(); i++) {
+			
+			jobj = jarray.getJSONObject(i);
+			
+			addNews (jobj.getString("title"), jobj.getString("author"), jobj.getString("date"), jobj.getString("content"));
+			
+		}
 	}
 	
 	public void addNews (String title, String author, String date, String content) {
