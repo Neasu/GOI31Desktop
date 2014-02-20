@@ -190,7 +190,7 @@ public class Schedule implements core.Updateable {
 		int today = TimePair.getTodayAsInt(cal);
 		TimePair tempTP;
 		
-		// Wenn es Wochenende oder auﬂerhalb der Schulzeiten ist, dann FreeLeson
+		// Wenn es Wochenende oder auﬂerhalb der Schulzeiten ist, dann FreeLesson
 		if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
 			return new FreeLesson(new TimePair (), false);
 		
@@ -218,6 +218,11 @@ public class Schedule implements core.Updateable {
 		int today = TimePair.getTodayAsInt(cal);
 		
 		Lesson currLesson = getCurrentLesson();
+		NormalLesson nl = null;
+		
+		if (currLesson.getClass().equals(NormalLesson.class)) {
+			nl = (NormalLesson) currLesson;
+		}
 		
 		// Wenn es Wochenende oder auﬂerhalb der Schulzeiten ist, dann FreeLeson
 			if (today == 6 || today == 7 || !schoolDay.isInBetween(cal))
@@ -225,7 +230,17 @@ public class Schedule implements core.Updateable {
 		
 		for (int i = 0; i < lessonsPerDay; i++) {
 			
-			if (times[i].getEndTimeAsString().equals(currLesson.getTime().getEndTimeAsString())) {
+			if (nl != null && nl.getName().equals("Pause")) {
+				
+				if (times[i].getStartTimeAsString().equals(nl.getTime().getEndTimeAsString())) {
+					for (int j = 0; j < lessonsPerDay; j++) {
+						if (lessons[today - 1][j].getTime().getStartTimeAsString().equals(times[i].getStartTimeAsString())) {
+							return lessons[today - 1][j];
+						}
+					}
+				}
+				
+			} else if (times[i].getEndTimeAsString().equals(currLesson.getTime().getEndTimeAsString())) {
 				for (int j = 0; j < lessonsPerDay; j++) {
 					if (lessons[today - 1][j].getTime().getStartTimeAsString().equals(times[i + 1].getStartTimeAsString())) {
 						return lessons[today - 1][j];
