@@ -100,7 +100,6 @@ public class Profile {
 		}
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Holt die Information zum Stundenplan von DSB
 	 * @throws IOException
@@ -124,7 +123,4 @@ public class Profile {
 			}
 		}
 	}
-=======
-	
->>>>>>> 0ff943ca813ecd117375b908935784ee28b25c9f
 }
