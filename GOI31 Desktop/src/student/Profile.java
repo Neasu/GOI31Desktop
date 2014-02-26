@@ -1,11 +1,20 @@
 package student;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import core.LogLevel;
+import data.FreeLesson;
+import data.ProxyLesson;
+import data.SimpleDate;
 import file.LogFile;
 import server.ApiServerException;
 import server.Request;
@@ -91,5 +100,31 @@ public class Profile {
 		}
 	}
 	
+<<<<<<< HEAD
+	/**
+	 * Holt die Information zum Stundenplan von DSB
+	 * @throws IOException
+	 */
+	public void populateTimetable() throws IOException {
+		LogFile.getRef().textout("Timetable wird aktualisiert...", LogLevel.INFO);
+		
+		// Dokument laden
+		Document doc = Jsoup.connect("https://light.dsbcontrol.de/DSBlightWebsite/Data/e48cf7a5-9bb4-4ed6-8944-2dd568f1c83b/e9e94d23-92de-417b-af5b-88e17c02f7d3/e9e94d23-92de-417b-af5b-88e17c02f7d3.htm").get();
+		
+		// Alle Tabellen holen
+		Elements tables = doc.select("table");
+		
+		// Hier werden alle Daten gespeichert
+		HashMap<SimpleDate, FreeLesson> freeLessons = new HashMap<SimpleDate, FreeLesson>();
+		HashMap<SimpleDate, ProxyLesson> proxyLessons = new HashMap<SimpleDate, ProxyLesson>();
+		
+		for (Element element : tables) {
+			if (element.hasClass("Ich komme nicht weiter, ich will API Key!!!!!!!!!!!!!!!!")) {
+				
+			}
+		}
+	}
+=======
 	
+>>>>>>> 0ff943ca813ecd117375b908935784ee28b25c9f
 }
