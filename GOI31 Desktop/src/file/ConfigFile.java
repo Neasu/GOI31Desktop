@@ -25,6 +25,13 @@ public class ConfigFile extends TextFile {
 
 		read();
 	}
+	
+	public ConfigFile(String name) {
+		super(name);
+		pairList = new ArrayList<String>();
+
+		read();
+	}
 
 	// Methods
 	public void refresh() {

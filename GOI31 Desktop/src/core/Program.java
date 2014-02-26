@@ -129,5 +129,9 @@ public class Program implements Runnable {
 	public ConfigFile getConfigFile () {
 		return conf;
 	}
+
+	public ChatSystem getChat() {
+		return chat;
+	}
 	
 }

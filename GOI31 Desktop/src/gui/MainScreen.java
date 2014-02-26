@@ -66,7 +66,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		screenName = "MainScreen";
 		screenID = 2;
 
-		cooldown = new Cooldown(60, false);
+		cooldown = new Cooldown(1, false);
 
 		Init();
 	}
@@ -325,6 +325,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		public void actionPerformed(ActionEvent ev) {
 			if (!cooldown.isActive()) {
 				GUIManager.getProg().getSche().updateData();
+				GUIManager.getProg().getChat().start();
 				cooldown.restart();
 			}
 		}
