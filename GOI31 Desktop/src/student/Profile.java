@@ -111,16 +111,14 @@ public class Profile {
 		Document doc = Jsoup.connect("https://light.dsbcontrol.de/DSBlightWebsite/Data/e48cf7a5-9bb4-4ed6-8944-2dd568f1c83b/e9e94d23-92de-417b-af5b-88e17c02f7d3/e9e94d23-92de-417b-af5b-88e17c02f7d3.htm").get();
 		
 		// Alle Tabellen holen
-		Elements tables = doc.select("table");
+		Elements tables = doc.children();
 		
 		// Hier werden alle Daten gespeichert
 		HashMap<SimpleDate, FreeLesson> freeLessons = new HashMap<SimpleDate, FreeLesson>();
 		HashMap<SimpleDate, ProxyLesson> proxyLessons = new HashMap<SimpleDate, ProxyLesson>();
 		
-		for (Element element : tables) {
-			if (element.hasClass("Ich komme nicht weiter, ich will API Key!!!!!!!!!!!!!!!!")) {
-				
-			}
+		for (int i = 0; i < tables.size(); i++) {
+			
 		}
 	}
 }
