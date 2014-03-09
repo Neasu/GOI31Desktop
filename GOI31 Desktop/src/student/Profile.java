@@ -34,7 +34,7 @@ public class Profile {
 		this.pass = _pass;
 	}
 	
-	private String user; 				// Benutzername z.B. tmueller
+	private String user; 				// Benutzername z.B. schueler@cmb-gt.de
 	private String pass; 				// Passwort (geheim) :D
 	private String firstname; 			// Vorname z.B. Thomas
 	private String lastname; 			// Nachname z.B. Müller
@@ -61,6 +61,10 @@ public class Profile {
 		
 		boolean responseValid = (response.getStatus() == 200);
 		
+		if (response.getStatus() == 410) {
+			throw new ApiServerException("Sorry, der Dienst wird nicht länger zur Verfügung gestellt :(");
+		}
+		
 		if (!responseValid) {
 			throw new ApiServerException("Fehler beim Einloggen! Überprüfe bitte deine Zugangsdaten! (Error Code " + Integer.toString(response.getStatus()) + ")");
 		}
@@ -77,9 +81,10 @@ public class Profile {
 	public void populateProfile() throws Exception {
 		// Wenn noch nicht eingeloggt, einloggen!
 		if(!this.loggedIn) {
+			LogFile.getRef().textout("Populate: User is not logged in! Try to log him in...", LogLevel.LOG);
 			// Falls das fehl schlägt die Methode verlassen
 			if (!this.login()) {
-				
+				throw new ApiServerException("Konnte Benutzer nicht anmelden!");
 			}
 		}
 		

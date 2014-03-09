@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -17,7 +18,7 @@ import file.LogFile;
 public class ServerExecutor {
 	public static Response ExecuteRequest(Request request) throws ApiServerException {
 		// Rückgabe Objekt schon mal erzeugen
-		Response resp = new Response(request.getMethod(), 500, "Unknown Error", null, null);
+		Response resp = new Response(request.getMethod(), 999, "Unknown Error", null, null);
 		
 		JSONObject bodyObject = new JSONObject();
 		
@@ -29,9 +30,9 @@ public class ServerExecutor {
 		try {
 			
 			
-			URL url = new URL("https://diskstation.valentingerlach.de/apis/goi31/api.php");
-			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			//HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			URL url = new URL("http://diskstation.valentingerlach.de/apis/goi31/api.php");
+			//HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
 			
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", "GY31 Desktop Client");
@@ -82,7 +83,8 @@ public class ServerExecutor {
 		} catch (JSONException e) {
 			throw new ApiServerException("Konnte JSON Objekt nicht parsen! Bitte befolge die Anweisungen auf www.goi31app.de/report-bug");
 		} catch (Exception e) {
-			throw new ApiServerException("Unerwarteter Fehler! Bitte befolge die Anweisungen auf www.goi31app.de/report-bug");
+			throw e;
+			//throw new ApiServerException("Unerwarteter Fehler! Bitte befolge die Anweisungen auf www.goi31app.de/report-bug");
 		}
 		
 		// Objekt zurückgeben
