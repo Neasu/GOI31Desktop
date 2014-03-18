@@ -19,6 +19,10 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import server.ApiServerException;
 import core.LogLevel;
 import core.Program;
 import data.Cooldown;
@@ -162,11 +166,20 @@ public class MainScreen extends Screen implements core.Updateable {
 		newsArea.setLineWrap(true);
 		newsArea.setFont (new Font("Calibri", Font.PLAIN, 14));
 		
+		// NEEEEEEEEEWWWWWWWSSSSSSS
 		news = new News (newsArea);
-		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
-		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
-		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
-		news.addNews("Schweinchen", "N3asu", "14.02.2014", "Ich mag rosa Schweinchen!");
+		try {
+			JSONArray newsArr = LogonScreen.user.getNews();
+			
+			for (int i = 0; i < newsArr.length(); i++) {
+				JSONObject newsObj = newsArr.getJSONObject(i);
+				
+				news.addNews(newsObj);
+			}
+		} catch (ApiServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 //		newsArea.setText("Hello World! \n");

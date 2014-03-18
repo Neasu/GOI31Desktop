@@ -24,16 +24,18 @@ public class News {
 	// Methods
 	public void addNews (JSONObject json) {
 		
-		JSONArray jarray = json.getJSONArray("news");
-		JSONObject jobj;
+		//JSONArray jarray = json.getJSONArray("news");
+		//JSONObject jobj;
 		
-		for (int i = 0; i < jarray.length(); i++) {
+		//for (int i = 0; i < jarray.length(); i++) {
 			
-			jobj = jarray.getJSONObject(i);
+			//jobj = jarray.getJSONObject(i);
 			
-			addNews (jobj.getString("title"), jobj.getString("author"), jobj.getString("date"), jobj.getString("content"));
+			//addNews (jobj.getString("title"), jobj.getString("user"), jobj.getString("published"), jobj.getString("text"));
 			
-		}
+			addNews (json.getString("title"), json.getString("user"), json.getString("published"), json.getString("text"));
+			
+		//}
 	}
 	
 	public void addNews (String title, String author, String date, String content) {

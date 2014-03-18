@@ -33,7 +33,7 @@ public class LogonScreen extends Screen {
 	private JButton btnLogIn;
 	private JButton btnStartOffline;
 	private JLabel lblErrorMsg;
-	private Profile user;
+	public static Profile user;
 
 	// Constructors
 	public LogonScreen(GUIManager guim) {

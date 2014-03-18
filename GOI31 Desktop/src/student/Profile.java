@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -124,6 +125,26 @@ public class Profile {
 		
 		for (int i = 0; i < tables.size(); i++) {
 			
+		}
+	}
+	
+	public JSONArray getNews() throws ApiServerException
+	{
+		// Neues Request Objekt anlegen
+		Request req = new Request("news", this.user, this.pass,
+				new JSONObject());
+
+		// Weitere Daten werden nicht benötigt also abschicken
+		Response resp = ServerExecutor.ExecuteRequest(req);
+
+		if (resp.getStatus() == 200) {
+			JSONObject data = resp.getData();
+
+			return data.getJSONArray("news");
+		} else {
+			throw new ApiServerException(
+					"Fehler! Status Code ist nicht ok (200). Status Code ist "
+							+ resp.getStatus());
 		}
 	}
 }
