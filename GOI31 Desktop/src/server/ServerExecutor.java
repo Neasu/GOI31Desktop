@@ -77,7 +77,13 @@ public class ServerExecutor {
 			JSONObject responseObject = new JSONObject(resp.getPlainResponse());
 			
 			resp.setStatus(responseObject.getInt("status"));
-			resp.setData(responseObject.getJSONObject("data"));
+			
+			try {
+				resp.setData(responseObject.getJSONObject("data"));
+			} catch (Exception e) {
+				LogFile.getRef().textout("No data object specified! Using default...", LogLevel.ERROR);
+				resp.setData(new JSONObject());
+			}
 		} catch (IOException e) {
 			throw new ApiServerException("Konnte keine Verbindung mit dem API Server herstellen! Bitte überprüfe deine Internetverbindung!");
 		} catch (JSONException e) {

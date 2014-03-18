@@ -125,6 +125,7 @@ public class LogonScreen extends Screen {
 	public class logInButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Login attempt checken!
+			// DONE Valentin war hier!
 			
 			user = new Profile (textField.getText(), String.copyValueOf(passwordField.getPassword()));
 			
@@ -132,16 +133,22 @@ public class LogonScreen extends Screen {
 			
 			try {
 				user.login ();
+				GUIManager.getProg().getConfigFile().addPair("Online", true);
 			} catch (Exception ex) {
 				lblErrorMsg.setText (ex.getMessage());
 				GUIManager.getProg().getConfigFile().addPair("Online", false);
 				return;
 			}
 			
-			GUIManager.getProg().setUserName(textField.getText());
 			GUIManager.getProg().setOnline(true);
-			
+			GUIManager.getProg().setUserName(textField.getText());
+			guim.getMainScreen();
+			setVisible(false);
 			GUIManager.getProg().getConfigFile().addPair("Online", true);
+			GUIManager.getProg().getConfigFile().addPair("Username", textField.getText());
+			
+			LogFile.getRef().textout("Application is running in ONLINE-Mode.", LogLevel.LOG);
+			LogFile.getRef().textout("Ich bin durchgehend online, online, online, durchgehend online!", LogLevel.LOG);
 			
 		}
 	}
