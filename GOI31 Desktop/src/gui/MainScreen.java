@@ -37,7 +37,7 @@ import file.LogFile;
 /**
  * 
  * @author Kevin
- *
+ * 
  */
 
 public class MainScreen extends Screen implements core.Updateable {
@@ -55,7 +55,7 @@ public class MainScreen extends Screen implements core.Updateable {
 	private JCheckBox checkBox_2;
 	private JCheckBox checkBox_3;
 	private JTextArea newsArea;
-	
+
 	private JScrollPane scroller;
 
 	private Cooldown cooldown;
@@ -119,6 +119,11 @@ public class MainScreen extends Screen implements core.Updateable {
 		checkBox_3 = new JCheckBox("Abkürzungen");
 		panel_2.add(checkBox_3);
 		checkBox_3.addActionListener(new CheckboxListener());
+		
+		//Checkboxen mit Werten aus der Configfile füllen
+		checkBox_1.setSelected(GUIManager.getProg().getConfigFile().getBoolean("lehrer_anzeigen"));
+		checkBox_2.setSelected(GUIManager.getProg().getConfigFile().getBoolean("raum_anzeigen"));
+		checkBox_3.setSelected(GUIManager.getProg().getConfigFile().getBoolean("abkuerzungen"));
 
 		// Update Button
 
@@ -168,17 +173,22 @@ public class MainScreen extends Screen implements core.Updateable {
 		
 		// NEEEEEEEEEWWWWWWWSSSSSSS
 		news = new News (newsArea);
-		try {
-			JSONArray newsArr = LogonScreen.user.getNews();
-			
-			for (int i = 0; i < newsArr.length(); i++) {
-				JSONObject newsObj = newsArr.getJSONObject(i);
-				
-				news.addNews(newsObj);
+		
+		if (GUIManager.getProg().isOnline()) {
+			try {
+				JSONArray newsArr = LogonScreen.user.getNews();
+
+				for (int i = 0; i < newsArr.length(); i++) {
+					JSONObject newsObj = newsArr.getJSONObject(i);
+
+					news.addNews(newsObj);
+				}
+			} catch (ApiServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (ApiServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else {
+			
 		}
 		
 		
@@ -229,7 +239,8 @@ public class MainScreen extends Screen implements core.Updateable {
 		Lesson currLesson = GUIManager.getProg().getSche().getCurrentLesson();
 		Lesson nextLesson = GUIManager.getProg().getSche().getNextLesson();
 
-		String timeTilLessonEnd = GUIManager.getProg().getSche().getTimeTilLessonEnd();
+		String timeTilLessonEnd = GUIManager.getProg().getSche()
+				.getTimeTilLessonEnd();
 
 		String temp = "";
 
@@ -334,6 +345,29 @@ public class MainScreen extends Screen implements core.Updateable {
 		return news;
 	}
 
+	private void writeToConfig() {
+		if (getCheckBox_1()) {
+			GUIManager.getProg().getConfigFile()
+					.addPair("lehrer_anzeigen", true);
+		} else {
+			GUIManager.getProg().getConfigFile()
+					.addPair("lehrer_anzeigen", false);
+		}
+
+		if (getCheckBox_2()) {
+			GUIManager.getProg().getConfigFile().addPair("raum_anzeigen", true);
+		} else {
+			GUIManager.getProg().getConfigFile()
+					.addPair("raum_anzeigen", false);
+		}
+
+		if (getCheckBox_3()) {
+			GUIManager.getProg().getConfigFile().addPair("abkuerzungen", true);
+		} else {
+			GUIManager.getProg().getConfigFile().addPair("abkuerzungen", false);
+		}
+	}
+
 	public class UpdateButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			if (!cooldown.isActive()) {
@@ -348,6 +382,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		public void actionPerformed(ActionEvent ev) {
 			table.revalidate();
 			table.repaint();
+			writeToConfig();
 		}
 	}
 
