@@ -44,12 +44,13 @@ public class ScheduleTableModel extends AbstractTableModel {
     { return false; }
 
 	public Object getValueAt(int row, int col) {
+		
 		if (row == 0) {
 			return columnNames[col];
 		} else if (col == 0) {
 			return GUIManager.getProg().getSche().getTimePair(row - 1).getTimePairAsString();
 		} else {
-			String temp = "";
+			String temp = "<html>";
 			Lesson lesson = GUIManager.getProg().getSche().getLesson(col - 1, row - 1);
 			NormalLesson nl = null;
 			
@@ -70,7 +71,7 @@ public class ScheduleTableModel extends AbstractTableModel {
 				nl = (NormalLesson) lesson;
 				
 //				temp += " Fach: ";
-				temp += " ";
+				temp += "";
 				
 				if (ms.getCheckBox_3()) {
 					temp += nl.getShorty();
@@ -87,16 +88,17 @@ public class ScheduleTableModel extends AbstractTableModel {
 			
 			if (ms.getCheckBox_1()) {
 //				temp += " Lehrer: ";
-				temp += " ";
+				temp += "<br>";
 				temp += nl.getTeacher();
 			}
 			
 			if (ms.getCheckBox_2()) {
 //				temp += " Raum: ";
-				temp += " ";
+				temp += "<br>";
 				temp += nl.getRoom();
 			}
 			
+			temp += "</html>";
 			
 			return temp;
 		}

@@ -42,7 +42,7 @@ import file.LogFile;
 
 public class MainScreen extends Screen implements core.Updateable {
 
-	private JTable table;
+	private SheduleTable table;
 	private JToolBar toolBar;
 	private JLabel toolBarLabel;
 	private JLabel label_2;
@@ -55,6 +55,8 @@ public class MainScreen extends Screen implements core.Updateable {
 	private JCheckBox checkBox_2;
 	private JCheckBox checkBox_3;
 	private JTextArea newsArea;
+
+	private int rowHeight;
 
 	private JScrollPane scroller;
 
@@ -106,25 +108,6 @@ public class MainScreen extends Screen implements core.Updateable {
 		button_1 = new JButton("Update");
 		panel_2.add(button_1);
 
-		// Checkboxes
-
-		checkBox_1 = new JCheckBox("Lehrer Anzeigen");
-		panel_2.add(checkBox_1);
-		checkBox_1.addActionListener(new CheckboxListener());
-
-		checkBox_2 = new JCheckBox("Raum Anzeigen");
-		panel_2.add(checkBox_2);
-		checkBox_2.addActionListener(new CheckboxListener());
-
-		checkBox_3 = new JCheckBox("Abkürzungen");
-		panel_2.add(checkBox_3);
-		checkBox_3.addActionListener(new CheckboxListener());
-		
-		//Checkboxen mit Werten aus der Configfile füllen
-		checkBox_1.setSelected(GUIManager.getProg().getConfigFile().getBoolean("lehrer_anzeigen"));
-		checkBox_2.setSelected(GUIManager.getProg().getConfigFile().getBoolean("raum_anzeigen"));
-		checkBox_3.setSelected(GUIManager.getProg().getConfigFile().getBoolean("abkuerzungen"));
-
 		// Update Button
 
 		button_1.addActionListener(new UpdateButtonListener());
@@ -140,15 +123,45 @@ public class MainScreen extends Screen implements core.Updateable {
 
 		// Table
 
-		table = new JTable(new ScheduleTableModel(this));
+		table = new SheduleTable(new ScheduleTableModel(this));
+		table.getTableHeader().setReorderingAllowed(false);
+
+		// JScrollPane scroll = new JScrollPane(table);
+		// scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
 		panel_3.add(table, BorderLayout.CENTER);
 
 		panel_1.add(panel_3, BorderLayout.NORTH);
 
 		table.setEnabled(false);
 
+		rowHeight = table.getRowHeight();
+
 		// Die erste Spalte soll schmaler sein
 		table.getColumnModel().getColumn(0).setMaxWidth(100);
+
+		// Checkboxes
+
+		checkBox_1 = new JCheckBox("Lehrer Anzeigen");
+		panel_2.add(checkBox_1);
+		checkBox_1.addActionListener(new CheckboxListener());
+
+		checkBox_2 = new JCheckBox("Raum Anzeigen");
+		panel_2.add(checkBox_2);
+		checkBox_2.addActionListener(new CheckboxListener());
+
+		checkBox_3 = new JCheckBox("Abkürzungen");
+		panel_2.add(checkBox_3);
+		checkBox_3.addActionListener(new CheckboxListener());
+
+		// Checkboxen mit Werten aus der Configfile füllen
+		checkBox_1.setSelected(GUIManager.getProg().getConfigFile().getBoolean("lehrer_anzeigen"));
+		checkBox_2.setSelected(GUIManager.getProg().getConfigFile().getBoolean("raum_anzeigen"));
+		checkBox_3.setSelected(GUIManager.getProg().getConfigFile().getBoolean("abkuerzungen"));
+
+		new CheckboxListener().actionPerformed(null); // nur einmal die
+														// ActionPerformed
+														// aufrufen
 
 		// TabbedPane
 
@@ -169,11 +182,11 @@ public class MainScreen extends Screen implements core.Updateable {
 
 		newsArea.setEditable(false);
 		newsArea.setLineWrap(true);
-		newsArea.setFont (new Font("Calibri", Font.PLAIN, 14));
-		
+		newsArea.setFont(new Font("Calibri", Font.PLAIN, 14));
+
 		// NEEEEEEEEEWWWWWWWSSSSSSS
-		news = new News (newsArea);
-		
+		news = new News(newsArea);
+
 		if (GUIManager.getProg().isOnline()) {
 			try {
 				JSONArray newsArr = LogonScreen.user.getNews();
@@ -188,25 +201,24 @@ public class MainScreen extends Screen implements core.Updateable {
 				e.printStackTrace();
 			}
 		} else {
-			
+
 		}
-		
-		
-//		newsArea.setText("Hello World! \n");
+
+		// newsArea.setText("Hello World! \n");
 
 		label_2 = new JLabel("Label 2");
 		tabbedPane.addTab("News", null, tab1panel, null);
 
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("New tab", null, tabbedPane_1, null);
-		
+
 		// MenueBar
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
 		menuBar.add(label_2);
-		
+
 		if (GUIManager.getProg().isOnline()) {
 			label_2.setText("Eingeloggt als: " + GUIManager.getProg().getUserName());
 		} else {
@@ -223,7 +235,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		// mnNewMenu.add(mntmLaden);
 
 		// centerWindowOnScreen();
-		resizeToScreen();
+		resizeToScreen(70, 70);
 
 		update();
 
@@ -239,8 +251,7 @@ public class MainScreen extends Screen implements core.Updateable {
 		Lesson currLesson = GUIManager.getProg().getSche().getCurrentLesson();
 		Lesson nextLesson = GUIManager.getProg().getSche().getNextLesson();
 
-		String timeTilLessonEnd = GUIManager.getProg().getSche()
-				.getTimeTilLessonEnd();
+		String timeTilLessonEnd = GUIManager.getProg().getSche().getTimeTilLessonEnd();
 
 		String temp = "";
 
@@ -347,18 +358,15 @@ public class MainScreen extends Screen implements core.Updateable {
 
 	private void writeToConfig() {
 		if (getCheckBox_1()) {
-			GUIManager.getProg().getConfigFile()
-					.addPair("lehrer_anzeigen", true);
+			GUIManager.getProg().getConfigFile().addPair("lehrer_anzeigen", true);
 		} else {
-			GUIManager.getProg().getConfigFile()
-					.addPair("lehrer_anzeigen", false);
+			GUIManager.getProg().getConfigFile().addPair("lehrer_anzeigen", false);
 		}
 
 		if (getCheckBox_2()) {
 			GUIManager.getProg().getConfigFile().addPair("raum_anzeigen", true);
 		} else {
-			GUIManager.getProg().getConfigFile()
-					.addPair("raum_anzeigen", false);
+			GUIManager.getProg().getConfigFile().addPair("raum_anzeigen", false);
 		}
 
 		if (getCheckBox_3()) {
@@ -368,11 +376,21 @@ public class MainScreen extends Screen implements core.Updateable {
 		}
 	}
 
+	public void setRowHeight(int height) {
+		for (int i = 1; i < 11; i++) {
+			table.setRowHeight(i, height);
+		}
+	}
+
 	public class UpdateButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			if (!cooldown.isActive()) {
 				GUIManager.getProg().getSche().updateData();
 				GUIManager.getProg().getChat().start();
+
+				table.revalidate();
+				table.repaint();
+
 				cooldown.restart();
 			}
 		}
@@ -380,6 +398,15 @@ public class MainScreen extends Screen implements core.Updateable {
 
 	public class CheckboxListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
+
+			if (getCheckBox_1() && getCheckBox_2()) {
+				setRowHeight(rowHeight * 3);
+			} else if (getCheckBox_1() || getCheckBox_2()) {
+				setRowHeight(rowHeight * 2);
+			} else {
+				setRowHeight(rowHeight);
+			}
+
 			table.revalidate();
 			table.repaint();
 			writeToConfig();

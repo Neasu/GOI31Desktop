@@ -90,7 +90,7 @@ public class Schedule implements core.Updateable {
 		addNormalLesson(2, 5, "Englisch", "DIN", "C106");
 		
 		addNormalLesson(2, 6, "Sport", "WE", "SH4");
-		addNormalLesson(2, 7, "Sport", "WE", "SH4");
+		addProxyLesson(2, 7, "Sport", "GRA", "C001");
 		
 		// Donnerstag
 		addNormalLesson(3, 2, "Gesellschaftslehre Geschichte", "KOF", "C013");
@@ -104,8 +104,8 @@ public class Schedule implements core.Updateable {
 		addNormalLesson(3, 7, "Spanisch", "PU", "C106");
 		
 		// Freitag
-		addNormalLesson(4, 0, "Deutsch", "KOL", "C013");
-		addNormalLesson(4, 1, "Deutsch", "KOL", "C013");
+		addFreeLesson(4, 0, true);
+		addFreeLesson(4, 1, true);
 		
 		addNormalLesson(4, 2, "Mathe", "WE", "C013");
 		
@@ -325,13 +325,7 @@ public class Schedule implements core.Updateable {
 		} else if (less.getClass().equals(ProxyLesson.class)) {
 			return false;
 		} else {
-			FreeLesson fl = (FreeLesson) less;
-			
-			if (fl.isEntfall()) {
-				return false;
-			} else {
-				return true;
-			}
+			return true;
 		}
 	}
 	
