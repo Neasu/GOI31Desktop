@@ -1,5 +1,0 @@
-lehrer_anzeigen:false
-raum_anzeigen:false
-abkuerzungen:false
-Online:false
-Username:kevin.sieverding@gmail.com
