@@ -82,9 +82,41 @@ public class TimePair {
 
 		return temp;
 	}
+	
+	public void parseString (String time) {
+		
+		try {
+			String[] temp;
+			String[] temp2;
+			
+			temp = time.split("/");
+			
+			temp[0].replace(" ", ".");
+			temp[1].replace(" ", ".");
+			
+			temp2 = temp[0].split("\\.");
+			
+			startTime = buildCalendar(Integer.parseInt(temp2[0]), Integer.parseInt(temp2[1]), Integer.parseInt(temp2[2]), Integer.parseInt(temp2[3]), Integer.parseInt(temp2[4]), Integer.parseInt(temp2[5]));
+			
+			temp2 = temp[1].split("\\.");
+			
+			endTime = buildCalendar(Integer.parseInt(temp2[0]), Integer.parseInt(temp2[1]), Integer.parseInt(temp2[2]), Integer.parseInt(temp2[3]), Integer.parseInt(temp2[4]), Integer.parseInt(temp2[5]));
+		} catch (Exception e) {
+			LogFile.getRef().textout("TimePair couldn't been parsed due to " + e.getMessage(), LogLevel.WARNING);
+		}
+		
+	}
 
 	public String toString() {
-		return getTimePairAsString();
+		String temp = "";
+		
+		temp += formatTime(startTime, "dd.mm.yy hh.mm.ss");
+		
+		temp += "/";
+		
+		temp += formatTime(endTime, "dd.mm.yy hh.mm.ss");
+		
+		return temp;
 	}
 
 	// Kleine Toolmethode um einen passenden Kalender für die Klasse zu bauen
@@ -117,6 +149,18 @@ public class TimePair {
 		return cal;
 	}
 	
+public static Calendar buildCalendar(int days, int months, int years, int hours, int minutes, int seconds) {
+
+		Calendar cal = buildCalendar(hours, minutes, seconds);
+		
+		cal.set(Calendar.YEAR, years);
+		cal.set(Calendar.MONTH, months - 1);
+		cal.set(Calendar.DAY_OF_MONTH, days);
+		
+		return cal;
+	}
+	
+	
 	// Gibt die Zeit als hh:mm aus
 	public static String formatTime (Calendar cal) {
 		String temp = "";
@@ -148,7 +192,7 @@ public class TimePair {
 	/**
 	 * 
 	 * @param time 	[0] Seconds [1] Minutes [2] Hours [4] Days [5] Months [6] Years
-	 * @param format Available Formats: "ss", "mm", "hh", "mm:ss", "hh:mm", "hh:mm:ss", "dd.mm.yy", "dd.mm.yy hh:mm:ss" 
+	 * @param format Available Formats: "ss", "mm", "hh", "mm:ss", "mm.ss", "hh:mm", "hh.mm", "hh:mm:ss", "hh.mm.ss", "dd.mm.yy", "dd.mm.yy hh:mm:ss", "dd.mm.yy hh.mm.ss"
 	 * @return
 	 */
 	public static String formatTime(int[] time,  String format) {
@@ -193,6 +237,12 @@ public class TimePair {
 				
 				break;
 			}
+			case "mm.ss": {
+				
+				temp += formatTime(time, "mm:ss").replace(":", ".");
+				
+				break;
+			}
 			case "hh:mm": {
 				
 				temp += formatTime(time, "hh");
@@ -201,11 +251,23 @@ public class TimePair {
 				
 				break;
 			}
+			case "hh.mm": {
+				
+				temp += formatTime(time, "hh:mm").replace(":", ".");
+				
+				break;
+			}
 			case "hh:mm:ss": {
 				
 				temp += formatTime(time, "hh:mm");
 				temp += ":";
 				temp += formatTime(time, "ss");
+				
+				break;
+			}
+			case "hh.mm.ss": {
+				
+				temp += formatTime(time, "hh:mm:ss").replace(":", ".");
 				
 				break;
 			}
@@ -242,6 +304,12 @@ public class TimePair {
 				temp += " ";
 				
 				temp += formatTime(time, "hh:mm:ss");
+				
+				break;
+			}
+			case "dd.mm.yy hh.mm.ss": {
+			
+				temp += formatTime(time, "dd.mm.yy hh:mm:ss").replace(":", ".");
 				
 				break;
 			}
@@ -396,6 +464,8 @@ public class TimePair {
 		
 		return temp;
 	}
+	
+	
 	
 	// [2] -> Hours | [1] -> Minutes | [0] -> Seconds
 	public static int[] getTimeDifferenceAsInt (Calendar time1, Calendar time2) {

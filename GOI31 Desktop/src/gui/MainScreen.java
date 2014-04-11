@@ -187,23 +187,6 @@ public class MainScreen extends Screen implements core.Updateable {
 		// NEEEEEEEEEWWWWWWWSSSSSSS
 		news = new News(newsArea);
 
-		if (GUIManager.getProg().isOnline()) {
-			try {
-				JSONArray newsArr = LogonScreen.user.getNews();
-
-				for (int i = 0; i < newsArr.length(); i++) {
-					JSONObject newsObj = newsArr.getJSONObject(i);
-
-					news.addNews(newsObj);
-				}
-			} catch (ApiServerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-
-		}
-
 		// newsArea.setText("Hello World! \n");
 
 		label_2 = new JLabel("Label 2");
@@ -221,8 +204,23 @@ public class MainScreen extends Screen implements core.Updateable {
 
 		if (GUIManager.getProg().isOnline()) {
 			label_2.setText("Eingeloggt als: " + GUIManager.getProg().getUserName());
+			
+			try {
+				JSONArray newsArr = LogonScreen.user.getNews();
+
+				for (int i = 0; i < newsArr.length(); i++) {
+					JSONObject newsObj = newsArr.getJSONObject(i);
+
+					news.addNews(newsObj);
+				}
+			} catch (ApiServerException e) {
+				news.addNews("News konnte nicht geladen werden!", "Der Gerät", "Jetzt", "Die News konnte nicht geladen werden. \n" + e.getMessage());
+				LogFile.getRef().textout("News couldn't been loaded due to " + e.getMessage(), LogLevel.WARNING);
+			}
+			
 		} else {
 			label_2.setText("Offline-Modus");
+			news.addNews("Offline-Modus", "Das System", "Jetzt", "Im Offline-Modus sind keine News verfügbar!");
 		}
 
 		// JMenu mnNewMenu = new JMenu("Datei");

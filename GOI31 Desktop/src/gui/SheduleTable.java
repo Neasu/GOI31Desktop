@@ -33,7 +33,6 @@ public class SheduleTable extends JTable {
 
 		if (column == 0 || row == 0) {
 			comp.setBackground(Color.LIGHT_GRAY);
-			System.out.println(row + " / " + column);
 		} else {
 			Lesson lesson = GUIManager.getProg().getSche().getLesson(column - 1, row - 1);
 

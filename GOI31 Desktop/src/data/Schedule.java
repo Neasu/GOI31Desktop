@@ -329,6 +329,12 @@ public class Schedule implements core.Updateable {
 		}
 	}
 	
+	public void renewTimes () {
+		for (int i = 0; i < times.length; i++) {
+			times[i] = new TimePair(times[i].getStartTime().get(Calendar.HOUR_OF_DAY), times[i].getStartTime().get(Calendar.MINUTE), times[i].getEndTime().get(Calendar.HOUR_OF_DAY), times[i].getEndTime().get(Calendar.MINUTE));
+		}
+	}
+	
 	public void updateSchoolday () {
 		schoolDay = new TimePair(getTodaysFirstLesson().getTime().getStartTime(), getTodaysLastLesson().getTime().getEndTime());
 	}
@@ -343,6 +349,8 @@ public class Schedule implements core.Updateable {
 	public void updateData () {
 		//TODO Make Code here!
 		LogFile.getRef().textout("Updating Schedule Data", LogLevel.LOG);
+		
+		renewTimes();
 		
 		updateSchoolday();
 	}
