@@ -170,7 +170,7 @@ public class Schedule implements core.Updateable {
 	}
 
 	private boolean checkInRange(int day, int hour) {
-		if (day < 0 || day > 4 || hour < 0 || hour > lessonsPerDay) {
+		if (day < 0 || day > 4 || hour < 0 || hour > (lessonsPerDay - 1)) {
 			return false;
 		} else
 			return true;
@@ -190,7 +190,7 @@ public class Schedule implements core.Updateable {
 		return temp;
 	}
 	
-	public Lesson getCurrentLesson () {
+	public Lesson getCurrentLesson () { 
 		int today = TimePair.getTodayAsInt(cal);
 		TimePair tempTP;
 		
@@ -202,6 +202,8 @@ public class Schedule implements core.Updateable {
 		for (int i = 0; i < lessonsPerDay; i++) {
 			if (getLesson(today - 1, i).getTime().isInBetween(cal)) {
 				return getLesson (today - 1, i);
+			} else if (i == 9){
+				return new FreeLesson(new TimePair (), false);
 			} else {
 				// Zeit zwischen der Aktuellen und der nächsten Stunde
 				tempTP = new TimePair (getLesson (today - 1, i).getTime().getEndTime(), getLesson(today - 1, i + 1).getTime().getStartTime());
