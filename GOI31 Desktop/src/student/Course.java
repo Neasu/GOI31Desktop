@@ -11,8 +11,18 @@ import java.util.List;
  */
 public class Course {
 
-	public Course() {
+	public Course(String identifier, String fullname, Occurrence[] occurrences) {
+		this.identifier = identifier;
+		this.fullname = fullname;
 		
+		for (Occurrence occurrence : occurrences) {
+			this.addOccurrence(occurrence);
+		}
+	}
+	
+	public Course(String identifier, String fullname) {
+		this.identifier = identifier;
+		this.fullname = fullname;
 	}
 	
 	private String identifier;

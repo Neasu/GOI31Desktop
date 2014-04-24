@@ -2,6 +2,7 @@ package data;
 
 import java.util.Calendar;
 
+import student.Profile;
 import core.LogLevel;
 import file.LogFile;
 
@@ -30,7 +31,7 @@ public class Schedule implements core.Updateable {
 	}
 
 	public Schedule(TimePair[] times) {
-		Init ();
+		Init();
 		this.times = times;
 	}
 
@@ -59,63 +60,66 @@ public class Schedule implements core.Updateable {
 			}
 		}
 		
-		//Montag
-		addNormalLesson(0, 2, "Mathe", "WE", "C005");
-		addNormalLesson(0, 3, "Mathe", "WE", "C005");
+//		//Montag
+//		addNormalLesson(0, 2, "Mathe", "WE", "C005");
+//		addNormalLesson(0, 3, "Mathe", "WE", "C005");
+//		
+//		addNormalLesson(0, 4, "Informatik", "BON", "C115");
+//		addNormalLesson(0, 5, "Informatik", "BON", "C115");
+//		
+//		// Dienstag
+//		addNormalLesson(1, 0, "Physik", "TWE", "A135");
+//		addNormalLesson(1, 1, "Physik", "TWE", "A135");
+//		
+//		addNormalLesson(1, 4, "Mathe", "WE", "C017");
+//		addNormalLesson(1, 5, "Mathe", "WE", "C017");
+//		
+//		addNormalLesson(1, 6, "Soziologie", "GRA", "C011");
+//		addNormalLesson(1, 7, "Soziologie", "GRA", "C011");
+//		
+//		addNormalLesson(1, 8, "Medieninformatik", "WÖ", "C115");
+//		addNormalLesson(1, 9, "Medieninformatik", "WÖ", "C115");
+//		
+//		// Mittwoch
+//		addNormalLesson(2, 0, "Spanisch", "PU", "C106");
+//		addNormalLesson(2, 1, "Spanisch", "PU", "C106");
+//		
+//		addNormalLesson(2, 2, "Informatik", "BL", "C113");
+//		addNormalLesson(2, 3, "Informatik", "BL", "C113");
+//		
+//		addNormalLesson(2, 4, "Englisch", "DIN", "C106");
+//		addNormalLesson(2, 5, "Englisch", "DIN", "C106");
+//		
+//		addNormalLesson(2, 6, "Sport", "WE", "SH4");
+//		addProxyLesson(2, 7, "Sport", "GRA", "C001");
+//		
+//		// Donnerstag
+//		addNormalLesson(3, 2, "Gesellschaftslehre Geschichte", "KOF", "C013");
+//		addNormalLesson(3, 3, "Gesellschaftslehre Geschichte", "KOF", "C013");
+//		
+//		addNormalLesson(3, 4, "Deutsch", "KOL", "C013");
+//		
+//		addNormalLesson(3, 5, "Informatik", "BON", "C115");
+//		
+//		addNormalLesson(3, 6, "Spanisch", "PU", "C106");
+//		addNormalLesson(3, 7, "Spanisch", "PU", "C106");
+//		
+//		// Freitag
+//		addFreeLesson(4, 0, true);
+//		addFreeLesson(4, 1, true);
+//		
+//		addNormalLesson(4, 2, "Mathe", "WE", "C013");
+//		
+//		addNormalLesson(4, 3, "Englisch", "DIN", "C106");
+//		
+//		addNormalLesson(4, 4, "Wirtschaftslehre", "WOL", "C008");
+//		addNormalLesson(4, 5, "Wirtschaftslehre", "WOL", "C008");
+//		
+//		addNormalLesson(4, 6, "Techinsche Informatik", "BO", "C019");
+//		addNormalLesson(4, 7, "Techinsche Informatik", "BO", "C019");
 		
-		addNormalLesson(0, 4, "Informatik", "BON", "C115");
-		addNormalLesson(0, 5, "Informatik", "BON", "C115");
-		
-		// Dienstag
-		addNormalLesson(1, 0, "Physik", "TWE", "A135");
-		addNormalLesson(1, 1, "Physik", "TWE", "A135");
-		
-		addNormalLesson(1, 4, "Mathe", "WE", "C017");
-		addNormalLesson(1, 5, "Mathe", "WE", "C017");
-		
-		addNormalLesson(1, 6, "Soziologie", "GRA", "C011");
-		addNormalLesson(1, 7, "Soziologie", "GRA", "C011");
-		
-		addNormalLesson(1, 8, "Medieninformatik", "WÖ", "C115");
-		addNormalLesson(1, 9, "Medieninformatik", "WÖ", "C115");
-		
-		// Mittwoch
-		addNormalLesson(2, 0, "Spanisch", "PU", "C106");
-		addNormalLesson(2, 1, "Spanisch", "PU", "C106");
-		
-		addNormalLesson(2, 2, "Informatik", "BL", "C113");
-		addNormalLesson(2, 3, "Informatik", "BL", "C113");
-		
-		addNormalLesson(2, 4, "Englisch", "DIN", "C106");
-		addNormalLesson(2, 5, "Englisch", "DIN", "C106");
-		
-		addNormalLesson(2, 6, "Sport", "WE", "SH4");
-		addProxyLesson(2, 7, "Sport", "GRA", "C001");
-		
-		// Donnerstag
-		addNormalLesson(3, 2, "Gesellschaftslehre Geschichte", "KOF", "C013");
-		addNormalLesson(3, 3, "Gesellschaftslehre Geschichte", "KOF", "C013");
-		
-		addNormalLesson(3, 4, "Deutsch", "KOL", "C013");
-		
-		addNormalLesson(3, 5, "Informatik", "BON", "C115");
-		
-		addNormalLesson(3, 6, "Spanisch", "PU", "C106");
-		addNormalLesson(3, 7, "Spanisch", "PU", "C106");
-		
-		// Freitag
-		addFreeLesson(4, 0, true);
-		addFreeLesson(4, 1, true);
-		
-		addNormalLesson(4, 2, "Mathe", "WE", "C013");
-		
-		addNormalLesson(4, 3, "Englisch", "DIN", "C106");
-		
-		addNormalLesson(4, 4, "Wirtschaftslehre", "WOL", "C008");
-		addNormalLesson(4, 5, "Wirtschaftslehre", "WOL", "C008");
-		
-		addNormalLesson(4, 6, "Techinsche Informatik", "BO", "C019");
-		addNormalLesson(4, 7, "Techinsche Informatik", "BO", "C019");
+		// Timetable füllen
+		// Passiert in Profile
 		
 		// Darf erst nach der Initialisierung des Stundenplans aufgerufen werden!
 		updateSchoolday();

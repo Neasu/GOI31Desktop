@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -142,13 +143,26 @@ public class LogonScreen extends Screen {
 			
 			GUIManager.getProg().setOnline(true);
 			GUIManager.getProg().setUserName(textField.getText());
-			guim.getMainScreen();
-			setVisible(false);
+			
+			// User Profile einrichten
+			try {
+				user.populateProfile();
+				user.populateTimetable();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			// Settings müssen vor Erscheinen der GUI gesichert werden
 			GUIManager.getProg().getConfigFile().addPair("Online", true);
 			GUIManager.getProg().getConfigFile().addPair("Username", textField.getText());
+			GUIManager.getProg().getConfigFile().addPair("Firstname", user.getFirstname());
+			GUIManager.getProg().getConfigFile().addPair("Lastname", user.getLastname());
+			
+			guim.getMainScreen();
+			setVisible(false);
 			
 			LogFile.getRef().textout("Application is running in ONLINE-Mode.", LogLevel.LOG);
-			LogFile.getRef().textout("Ich bin durchgehend online, online, online, durchgehend online!", LogLevel.LOG);
 			
 		}
 	}

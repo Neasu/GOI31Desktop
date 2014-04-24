@@ -203,7 +203,10 @@ public class MainScreen extends Screen implements core.Updateable {
 		menuBar.add(label_2);
 
 		if (GUIManager.getProg().isOnline()) {
-			label_2.setText("Eingeloggt als: " + GUIManager.getProg().getUserName());
+			//label_2.setText("Eingeloggt als: " + GUIManager.getProg().getUserName());
+			
+			// Richtiger Name ist schöner
+			label_2.setText("Eingeloggt als: " + GUIManager.getProg().getConfigFile().getString("Firstname") + " " + GUIManager.getProg().getConfigFile().getString("Lastname"));
 			
 			try {
 				JSONArray newsArr = LogonScreen.user.getNews();
