@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,10 +13,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import student.Profile;
 import core.LogLevel;
 import file.ImageFile;
 import file.LogFile;
-import student.Profile;
 
 /**
  * 
@@ -67,10 +66,15 @@ public class LogonScreen extends Screen {
 		contentPane.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 
-		btnLogIn = new JButton("Log in");
+		btnLogIn = new JButton("Login");
+		
+		// Reagiert auf die ENTER-Taste
+		contentPane.getRootPane().setDefaultButton(btnLogIn);
+		
 		panel.add(btnLogIn);
 
 		btnStartOffline = new JButton("Start Offline");
+		btnStartOffline.setEnabled(false);
 		panel.add(btnStartOffline);
 
 		JPanel panel_1 = new JPanel();
@@ -89,7 +93,7 @@ public class LogonScreen extends Screen {
 		panel_1.add(textField);
 		textField.setColumns(15);
 
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("E-Mail:");
 		lblName.setBounds(111, 81, 46, 14);
 		panel_1.add(lblName);
 

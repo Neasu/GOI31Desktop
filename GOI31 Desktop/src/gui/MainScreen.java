@@ -192,8 +192,8 @@ public class MainScreen extends Screen implements core.Updateable {
 		label_2 = new JLabel("Label 2");
 		tabbedPane.addTab("News", null, tab1panel, null);
 
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("New tab", null, tabbedPane_1, null);
+//		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+//		tabbedPane.addTab("New tab", null, tabbedPane_1, null);
 
 		// MenueBar
 
