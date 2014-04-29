@@ -387,7 +387,14 @@ public class MainScreen extends Screen implements core.Updateable {
 		public void actionPerformed(ActionEvent ev) {
 			if (!cooldown.isActive()) {
 				GUIManager.getProg().getSche().updateData();
-				GUIManager.getProg().getChat().start();
+//				GUIManager.getProg().getChat().start();
+				try {
+					GUIManager.getProg().getUser().populateProfile();
+					GUIManager.getProg().getUser().populateTimetable();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				table.revalidate();
 				table.repaint();

@@ -49,7 +49,7 @@ public abstract class Screen {
 
 		frame.setLocation(a, b);
 		
-		LogFile.getRef().textout("The Screen: " + screenName + " has been centered at X: " + a + " Y: " + b, LogLevel.INFO);
+		LogFile.getRef().textout("The Screen: " + screenName + " has been centered at X: " + a + " Y: " + b, LogLevel.LOG);
 	}
 	
 	public void resizeToScreen (int xpercent, int ypercent) {
@@ -70,7 +70,7 @@ public abstract class Screen {
 		
 		frame.setBounds(0, 0, a, b);
 		
-		LogFile.getRef().textout("The Screen: " + screenName + " has been resized to Width: " + a + " and Height: " + b , LogLevel.INFO);
+		LogFile.getRef().textout("The Screen: " + screenName + " has been resized to Width: " + a + " and Height: " + b , LogLevel.LOG);
 		
 		centerWindowOnScreen();
 	}

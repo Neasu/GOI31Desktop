@@ -56,7 +56,7 @@ public class Profile {
 		Request request = new Request("ping", this.user, this.pass, new JSONObject());
 
 		// Logging FTW
-		LogFile.getRef().textout("Trying to login...", LogLevel.INFO);
+		LogFile.getRef().textout("Trying to login...", LogLevel.LOG);
 		// LogFile.getRef().textout("Username: " + this.user, LogLevel.INFO);
 		// LogFile.getRef().textout("Password: " + this.pass, LogLevel.INFO);
 
@@ -134,7 +134,7 @@ public class Profile {
 	 * @throws Exception 
 	 */
 	public void populateTimetable() throws Exception {
-		LogFile.getRef().textout("Timetable wird aktualisiert...", LogLevel.INFO);
+		LogFile.getRef().textout("Timetable wird aktualisiert...", LogLevel.LOG);
 		
 		Schedule schedule = GUIManager.getProg().getSche();
 		

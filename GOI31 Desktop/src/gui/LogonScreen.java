@@ -152,6 +152,7 @@ public class LogonScreen extends Screen {
 			try {
 				user.populateProfile();
 				user.populateTimetable();
+				GUIManager.getProg().setUser(user);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

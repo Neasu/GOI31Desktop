@@ -280,7 +280,7 @@ public class Schedule implements core.Updateable {
 		
 		for (int i = 0; i < lessonsPerDay; i++) {
 			if (!IsLessonIgnoreable(lessons[today - 1][i])) {
-				LogFile.getRef().textout("Todays first Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.INFO);
+				LogFile.getRef().textout("Todays first Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.LOG);
 				return lessons[today - 1] [i];
 			}
 		}
@@ -314,7 +314,7 @@ public class Schedule implements core.Updateable {
 				}
 				
 				if (isLastLesson) {
-					LogFile.getRef().textout("Todays last Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.INFO);
+					LogFile.getRef().textout("Todays last Lesson is: " + ((NormalLesson) lessons[today - 1][i]).getName(), LogLevel.LOG);
 					return lessons[today - 1][i];
 				}
 				

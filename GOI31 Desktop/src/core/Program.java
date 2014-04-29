@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import network.ChatSystem;
+import student.Profile;
 import data.Schedule;
 import data.TimePair;
 import file.ConfigFile;
@@ -24,7 +25,16 @@ public class Program implements Runnable {
 	private int today = TimePair.getTodayAsInt(Calendar.getInstance());
 	
 	private String username = "";
+	private Profile user;
 	
+	public Profile getUser() {
+		return user;
+	}
+
+	public void setUser(Profile user) {
+		this.user = user;
+	}
+
 	private Schedule sche;		// TODO Change into only-one-ref
 	private GUIManager guim;
 	private static ArrayList<Updateable> updateList;
@@ -50,8 +60,8 @@ public class Program implements Runnable {
 		conf  = new ConfigFile ();
 		
 		// ChatSystem
-		chat = new ChatSystem ();
-		chat.start();
+//		chat = new ChatSystem ();
+//		chat.start();
 		
 		// GUIManager Initialisieren
 		guim = new GUIManager(this);
